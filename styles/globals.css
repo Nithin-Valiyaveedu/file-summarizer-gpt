@@ -1,0 +1,145 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  @apply font-inter;
+}
+
+.flex-center {
+  @apply flex justify-center items-center;
+}
+
+.flex-start {
+  @apply flex justify-start items-start;
+}
+
+.flex-end {
+  @apply flex justify-end items-center;
+}
+
+.flex-between {
+  @apply flex justify-between items-center;
+}
+
+/* input  */
+
+/* .inputField {
+  @apply outline-none focus:ring-black focus:ring-2 focus:shadow-input text-grey1 font-normal text-sm w-full;
+} */
+
+
+/* .slide {
+  width: 90% !important;
+} */
+
+/* .slider-wrapper{
+  width: 200px !important;
+  margin-right: auto !important;
+  margin-left: 0 !important;
+} */
+
+/* .carousel{
+  border: 1px solid white !important;
+  width: 700px !important;
+  margin-right: 200px !important;
+}  */
+
+
+.control-dots {
+  width: fit-content !important;
+
+}
+
+/* .control-arrow {
+  width: 43px !important;
+} */
+
+/* .carousel .slide{
+  min-width: 100% !important;
+} */
+
+.carousel .slider-wrapper {
+  /* border: 2px solid white; */
+  /* margin-left: 10px !important; */
+  /* width: 50% !important; */
+}
+
+iframe {
+  margin: auto !important;
+  width: 80% !important;
+}
+
+.carousel .slide iframe {
+  width: 100% !important;
+}
+
+
+/* admin leftside bar */
+.admin-leftside-bar {
+  min-width: 300px;
+  width: 250px;
+  border: 1px solid #E6E6E6;
+}
+
+/* @media (max-width: 1280px) {
+  .admin-leftside-bar {
+    min-width: 200px;
+    width: 200px;
+  }
+} */
+@media (max-width: 1024px) {
+  .admin-leftside-bar {
+    min-width: fit-content;
+    width: fit-content;
+  }
+}
+
+/* modal  */
+
+.modal-header {
+  border-bottom: none !important;
+}
+
+.modal-footer {
+  border-top: none !important;
+}
+
+.modal-dialog {
+  margin-top: 100px !important;
+}
+
+.border-color {
+  width: 68px;
+  height: 68px;
+  border: 2px solid #BE7627;
+  border-radius: 100%;
+  background-color: #FFF6E4;
+  color: #BE7627;
+}
+
+.confirm-button {
+  @apply bg-primary-button flex-center border border-buttonBorder p-2 rounded-3xl w-1/2
+}
+
+.decline-button {
+  @apply flex-center border border-buttonBorder p-2 rounded-3xl w-1/2
+}
+
+
+.hideScrollbar {
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+}
+.hideScrollbar::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
