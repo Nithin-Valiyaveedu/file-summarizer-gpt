@@ -1,6 +1,6 @@
-// import 'bootstrap/dist/css/bootstrap.css';
 import "@styles/globals.css";
-import Script from "next/script";
+import { Toast } from "../components/toast/index";
+import UserContextProvider from "@context/UserContextProvider";
 
 export const metadata = {
   title: "Conventional AI",
@@ -30,9 +30,13 @@ export default function RootLayout({
       </head>
 
       <body>
-        <main>{children}</main>
+        <main>
+          <UserContextProvider>
+            <Toast />
+            {children}
+          </UserContextProvider>
+        </main>
       </body>
-      <Script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"/>
     </html>
   );
 }

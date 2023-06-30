@@ -1,14 +1,36 @@
 "use client";
 
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+
+import { GoogleOAuthProvider } from "@react-oauth/google";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 import LoginCard from "@components/cards/LoginCard";
 import Image from "next/image";
 
+import { storeUserDetails, getUserDetails } from "@utils/crypto";
+import { useUserContext } from "../context/UserContex";
+import { successToast } from "@components/toast";
+
 const Login = () => {
+  const router = useRouter();
+  const [userData, setUserData] = useState<any>("");
+  const { setUser } = useUserContext();
+
+  useEffect(() => {
+    if (userData) {
+      storeUserDetails(userData.data);
+      setUser(userData.data);
+      successToast(userData.message);
+      router.push("/dashboard");
+    }
+  }, [userData]);
+
   return (
-    <>
+    <GoogleOAuthProvider
+      clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ""}>
       <div className="flex flex-col 850px:flex-row min-h-screen w-full">
         <div className="w-full p-8">
           <Image
@@ -19,6 +41,7 @@ const Login = () => {
             height={36}
           />
           <LoginCard
+            setUserData={setUserData}
             cardType="signup"
             header="Sign Up"
             description="Let’s get you started with a simple sign up"
@@ -34,7 +57,7 @@ const Login = () => {
             renderIndicator={(onClickHandler, isSelected, index, label) => {
               return (
                 <span
-                  className={`mr-4 px-3 py-2 rounded-full ${
+                  className={`cursor-pointer mr-4 px-2.5 py-1.5 rounded-full ${
                     isSelected
                       ? "border border-white text-white"
                       : "border border-gray-500 text-gray-500"
@@ -106,7 +129,7 @@ const Login = () => {
           </Carousel>
         </div>
       </div>
-    </>
+    </GoogleOAuthProvider>
   );
 };
 

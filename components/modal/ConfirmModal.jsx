@@ -1,6 +1,6 @@
 import React from "react";
 
-const ConfirmModal = ({ setState, content }) => {
+const ConfirmModal = ({ setState, content, yesClick }) => {
   return (
     <>
       <div className="text-center bg-white rounded-lg py-4 min-w-fit 500px:w-[400px] px-4 ">
@@ -18,8 +18,7 @@ const ConfirmModal = ({ setState, content }) => {
           </button>
           <button
             className="confirm-button"
-            // onClick={toggle}
-          >
+            onClick={yesClick}>
             Yes
           </button>
         </div>

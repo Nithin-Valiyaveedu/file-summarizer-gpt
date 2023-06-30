@@ -9,14 +9,15 @@ import UserPrompt from "@components/chatprompt/userPrompt";
 
 const PromptPage = () => {
   const [promptData, setPromptData] = useState(false);
+  const [prompt, setPrompt] = useState<String>("");
 
   return (
     <>
-      {promptData ? (
+      {prompt ? (
         <div className="overflow-y-scroll h-[75vh]">
           <UserPrompt
             type="sss"
-            content="What are the key considerations organizations should keep in mind when embarking on an Enterprise Resource Planning (ERP) implementation project?"
+            content={prompt}
           />
           <AiPrompt
             type=""
@@ -44,7 +45,7 @@ Customization vs. Configuration: Balancing customization and configuration is es
         </div>
       )}
 
-      <ChatPrompt />
+      <ChatPrompt setPrompt={setPrompt} />
     </>
   );
 };
