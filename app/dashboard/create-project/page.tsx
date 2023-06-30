@@ -3,8 +3,11 @@ import Image from "next/image";
 
 import PrimaryButton from "@components/buttons/PrimaryButton";
 import Input from "@components/input";
+import { useUserContext } from "@context/UserContex";
 
 const CreateProject = () => {
+  const { user } = useUserContext();
+
   const handleClick = () => {
     console.log("hello");
   };
@@ -12,7 +15,7 @@ const CreateProject = () => {
     <div className="flex justify-center mt-8 mb-2">
       <div className="w-full 850px:w-1/2 2xl:w-1/3 py-4 px-6 border border-primaryBorder shadow-createProject rounded-md bg-white">
         <p className="text-secondary">
-          Hello, <b className="text-black font-medium">Alexander</b>
+          Hello, <b className="text-black font-medium">{user.fullName}</b>
         </p>
         <p className="mt-12 text-2xl font-semibold">
           <span className="text-primaryColor text-xl font-bold">+</span> New
@@ -42,7 +45,6 @@ const CreateProject = () => {
           onClick={handleClick}
         />
       </div>
-      
     </div>
   );
 };

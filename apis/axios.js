@@ -1,3 +1,4 @@
+import { getUserDetails, getUserTokenFromLocalStorage } from '@utils/crypto';
 import axios from 'axios';
 
 const axiosInstance = axios.create({
@@ -8,17 +9,16 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config) => {
     // Modify the request config here (add headers, authentication tokens)
-    const accessToken = JSON.parse(localStorage.getItem("token"));
-    console.log("hehehehe");
+    console.log(getUserTokenFromLocalStorage());
+    const accessToken = getUserTokenFromLocalStorage();
     // If token is present add it to request's Authorization Header
     if (accessToken) {
-      if (config.headers) config.headers.token = accessToken;
+      if (config.headers) config.headers.Authorization = `Bearer ${accessToken}`;
     }
     return config;
   },
   (error) => {
     // Handle request errors here
-
     return Promise.reject(error);
   }
 );

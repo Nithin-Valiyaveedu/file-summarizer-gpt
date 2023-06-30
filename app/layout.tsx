@@ -1,5 +1,6 @@
 import "@styles/globals.css";
 import { Toast } from "../components/toast/index";
+import UserContextProvider from "@context/UserContextProvider";
 
 export const metadata = {
   title: "Conventional AI",
@@ -30,8 +31,10 @@ export default function RootLayout({
 
       <body>
         <main>
-          <Toast />
-          {children}
+          <UserContextProvider>
+            <Toast />
+            {children}
+          </UserContextProvider>
         </main>
       </body>
     </html>

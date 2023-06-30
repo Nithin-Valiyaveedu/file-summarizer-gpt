@@ -1,25 +1,50 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useUserContext } from "@context/UserContex";
 
-import ViewDocument from "@components/modal/ViewDocument";
+import { getUserDetails, removeUserDataFromLS } from "@utils/crypto";
+// import ViewDocument from "@components/modal/ViewDocument";
 import ConfirmModal from "@components/modal/ConfirmModal.jsx";
 import ModalOuter from "@components/modal/ModalOuter";
-import ViewDocumentModal from "@components/modal/ViewDocument";
+import { authenticationApi } from "@apis/auth/googleAuth";
+
+import { successToast } from "@components/toast";
 
 const DashBoard = () => {
-  const [showLogoutModal, setShowLogoutModal] = useState(true);
+  const router = useRouter();
+  const { logoutModal, setLogoutModal } = useUserContext();
 
+  const handleLogout = async () => {
+    try {
+      const response = await authenticationApi.logout();
+      console.log(response);
+      successToast(response.data.message);
+      setLogoutModal(false);
+      router.push("/");
+      removeUserDataFromLS();
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
-      {showLogoutModal && (
+      {logoutModal && (
         <ModalOuter
-          heading="Delete Project"
+          heading="Logout"
           blockOutsideClick={false}
-          state={showLogoutModal}
-          setState={setShowLogoutModal}
+          state={logoutModal}
+          setState={setLogoutModal}
           classNames="hideScrollbar">
-          <ViewDocumentModal setState={setShowLogoutModal} />
+          <ConfirmModal
+            content={{
+              title: "Are you sure you want to logout?",
+              description: "Logout of cornerstone",
+            }}
+            setState={setLogoutModal}
+            yesClick={handleLogout}
+          />
         </ModalOuter>
       )}
     </>
