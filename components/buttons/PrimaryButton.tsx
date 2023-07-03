@@ -4,7 +4,7 @@ const PrimaryButton = ({
   classNames,
 }: {
   text: String;
-  onClick: () => void;
+  onClick?: (e: any) => void;
   classNames: String;
 }) => {
   return (

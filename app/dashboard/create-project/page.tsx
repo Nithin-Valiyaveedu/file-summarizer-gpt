@@ -1,16 +1,32 @@
 "use client";
-import Image from "next/image";
+import { useState } from "react";
 
 import PrimaryButton from "@components/buttons/PrimaryButton";
 import Input from "@components/input";
 import { useUserContext } from "@context/UserContex";
+import UploadFile from "@components/upload";
+import { projectApis } from "@apis/project/projectApis";
+import { successToast } from "@components/toast";
 
 const CreateProject = () => {
   const { user } = useUserContext();
+  const [formData, setFormData] = useState("");
+  const [filePath, setFilePath] = useState<object[]>([]);
 
-  const handleClick = () => {
-    console.log("hello");
+  const handleSubmit = async () => {
+    let payload = {
+      projectName: formData,
+      projectFiles: filePath,
+    };
+    try {
+      const result = await projectApis.addProject(payload);
+      const { data } = result.data;
+      successToast(data.message);
+    } catch (error) {
+      console.log(error);
+    }
   };
+
   return (
     <div className="flex justify-center mt-8 mb-2">
       <div className="w-full 850px:w-1/2 2xl:w-1/3 py-4 px-6 border border-primaryBorder shadow-createProject rounded-md bg-white">
@@ -22,27 +38,20 @@ const CreateProject = () => {
           Project
         </p>
         <p className="text-sm opacity-[50%]">Start by uploading project file</p>
-        <Input classNames={`mt-4`} />
-        <div className="mt-4 border rounded-lg border-dotted border-uploadField  flex-center flex-col shadow-uploadField p-4 min-h-[350px]">
-          <Image
-            className="mb-4"
-            src="/assets/icons/FileIcon.svg"
-            alt="Upload Icon"
-            width={48}
-            height={56}
-          />
-          <p className="text-base font-medium">Click to upload</p>
-          <p className="opacity-60">Supported file type .txt</p>
-          <PrimaryButton
-            text="Upload"
-            classNames="mt-2 mx-auto w-1/2 text-primaryColor font-medium"
-            onClick={handleClick}
-          />
-        </div>
+        <Input
+          classNames={`mt-4`}
+          name="projectName"
+          placeholder="Project Name"
+          onChange={(e: any) => setFormData(e.target.value)}
+        />
+        <UploadFile
+          filePath={filePath}
+          setFilePath={setFilePath}
+        />
         <PrimaryButton
           text="Add Project"
           classNames="mt-4 mx-auto w-full bg-primary-button text-white"
-          onClick={handleClick}
+          onClick={handleSubmit}
         />
       </div>
     </div>
