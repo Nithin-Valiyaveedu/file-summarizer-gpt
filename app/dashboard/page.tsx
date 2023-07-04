@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import { useRouter } from "next/navigation";
 import { useUserContext } from "@context/UserContex";
 
-import { getUserDetails, removeUserDataFromLS } from "@utils/crypto";
+import { removeUserDataFromLS } from "@utils/crypto";
 // import ViewDocument from "@components/modal/ViewDocument";
 import ConfirmModal from "@components/modal/ConfirmModal.jsx";
 import ModalOuter from "@components/modal/ModalOuter";

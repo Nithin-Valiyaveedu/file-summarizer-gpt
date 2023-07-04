@@ -40,6 +40,7 @@ module.exports = {
         youtubCard: '#3C3C3C',
         dashboard: '#F8F8F8',
         answerPrompt: "#F5E4DF",
+        projectClicked: "#EFEFEF"
 
       },
       borderColor: {

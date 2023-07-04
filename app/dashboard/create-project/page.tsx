@@ -1,15 +1,21 @@
 "use client";
 import { useState } from "react";
 
+import { useUserContext } from "@context/UserContex";
+import { useProjectContext } from "@context/ProjectContext";
+import { useRouter } from "next/navigation";
+
 import PrimaryButton from "@components/buttons/PrimaryButton";
 import Input from "@components/input";
-import { useUserContext } from "@context/UserContex";
 import UploadFile from "@components/upload";
 import { projectApis } from "@apis/project/projectApis";
-import { successToast } from "@components/toast";
+import { errorToast, successToast } from "@components/toast";
+import { projectFormValidation } from "@utils/formValidation";
 
 const CreateProject = () => {
+  const router = useRouter();
   const { user } = useUserContext();
+  const { projectList, addProject } = useProjectContext();
   const [formData, setFormData] = useState("");
   const [filePath, setFilePath] = useState<object[]>([]);
 
@@ -18,12 +24,19 @@ const CreateProject = () => {
       projectName: formData,
       projectFiles: filePath,
     };
-    try {
-      const result = await projectApis.addProject(payload);
-      const { data } = result.data;
-      successToast(data.message);
-    } catch (error) {
-      console.log(error);
+    const formError: any = projectFormValidation(payload);
+    if (formError !== "") {
+      errorToast(formError);
+    } else {
+      try {
+        const result: any = await projectApis.addProject(payload);
+        const { data, message } = result.data;
+        successToast(message);
+        addProject(data);
+        router.push("/dashboard/chat-prompt");
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 

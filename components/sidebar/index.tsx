@@ -1,17 +1,21 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useUserContext } from "@context/UserContex";
 
 import PrimaryButton from "@components/buttons/PrimaryButton";
 import { getUserDetails } from "@utils/crypto";
+import ProjectList from "@components/projectList";
+import { projectApis } from "@apis/project/projectApis";
+import { useProjectContext } from "@context/ProjectContext";
 
 const Sidebar = () => {
   const router = useRouter();
   const { user, displayLogoutModal } = useUserContext();
-  // const userData = getUserDetails();
+  const { projectList, displayDeleteModal } = useProjectContext();
+  
   const handleClick = () => {
     router.push("/dashboard/create-project");
   };
@@ -19,8 +23,12 @@ const Sidebar = () => {
     displayLogoutModal();
   };
 
+  const handleDelete = (id: string) => {
+    console.log(id);
+    displayDeleteModal(id);
+  };
+
   console.log(user);
-  
 
   return (
     <>
@@ -41,52 +49,45 @@ const Sidebar = () => {
                 text="+ Add new project"
                 onClick={handleClick}
               />
-              <p
-                className="mt-8"
-                style={{ color: "#999999" }}>
-                My Projects
-              </p>
-              <div className="flex-center min-h-[430px] ">
-                <div className="flex flex-col justify-center items-center">
-                  <Image
-                    src="/assets/icons/PaperIcon.svg"
-                    alt=""
-                    width={65}
-                    height={36}
-                  />
-                  <p className="font-semibold w-2/3 text-center">
-                    Created projects will appear here
-                  </p>
-                </div>
+            </div>
+            <ProjectList
+              projectList={projectList}
+              handleDelete={handleDelete}
+            />
+
+            <div className="flex-between px-6">
+              <div className="flex-center space-x-2 items-center">
+                <Image
+                  className="mt-1"
+                  src="/assets/icons/TutorialIcon.svg"
+                  alt=""
+                  width={16}
+                  height={15}
+                />
+                <p className="my-0 font-medium">Tutorials</p>
               </div>
-              <div className="flex-between">
-                <div className="flex-center space-x-2 items-center">
-                  <Image
-                    className="mt-1"
-                    src="/assets/icons/TutorialIcon.svg"
-                    alt=""
-                    width={16}
-                    height={15}
-                  />
-                  <p className="my-0 font-medium">Tutorials</p>
-                </div>
-                <div className="cursor-pointer">
-                  <Image
-                    className=""
-                    src="/assets/icons/RightArrow.svg"
-                    alt=""
-                    width={16.25}
-                    height={15}
-                  />
-                </div>
+              <div className="cursor-pointer">
+                <Image
+                  className=""
+                  src="/assets/icons/RightArrow.svg"
+                  alt=""
+                  width={16.25}
+                  height={15}
+                />
               </div>
             </div>
+
             <div className="border border-b my-4"></div>
             <div className="flex-between px-6 py-1">
               <div className="flex-center space-x-2 items-center">
-                <div className="w-10 h-10 flex-center rounded-full bg-gray-500 p-2">
-                  {/* {user.fullName.toUpperCase().charAt(0)} */}
-                </div>
+                <Image
+                  className="rounded-full"
+                  src={`https://lh3.googleusercontent.com/a/AAcHTtf3bvGw39iP5cqZUz4eY0szkGyCkeycmDxdCSZC5JW4Jw=s96-c`}
+                  alt="profile-photo"
+                  width={40}
+                  height={40}
+                />
+
                 <p>{user.fullName}</p>
               </div>
               <div
