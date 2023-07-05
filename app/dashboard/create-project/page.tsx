@@ -15,7 +15,7 @@ import { projectFormValidation } from "@utils/formValidation";
 const CreateProject = () => {
   const router = useRouter();
   const { user } = useUserContext();
-  const { projectList, addProject } = useProjectContext();
+  const { addProject } = useProjectContext();
   const [formData, setFormData] = useState("");
   const [filePath, setFilePath] = useState<object[]>([]);
 
@@ -41,8 +41,8 @@ const CreateProject = () => {
   };
 
   return (
-    <div className="flex justify-center mt-8 mb-2">
-      <div className="w-full 850px:w-1/2 2xl:w-1/3 py-4 px-6 border border-primaryBorder shadow-createProject rounded-md bg-white">
+    <div className="flex w-full 850px:w-1/2 2xl:w-1/3 850px:mt-8 mb-2 mx-auto mt-20 p-2">
+      <div className="w-full py-4 px-6 border border-primaryBorder shadow-createProject rounded-md bg-white">
         <p className="text-secondary">
           Hello, <b className="text-black font-medium">{user.fullName}</b>
         </p>

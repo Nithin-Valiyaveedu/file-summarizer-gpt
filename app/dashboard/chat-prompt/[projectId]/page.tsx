@@ -1,15 +1,33 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 
 import ChatPrompt from "@components/chatprompt";
 import AiPrompt from "@components/chatprompt/aiPrompt";
 import UserPrompt from "@components/chatprompt/userPrompt";
+import { useProjectContext } from "@context/ProjectContext";
+import { projectApis } from "@apis/project/projectApis";
+import { usePathname, useRouter } from "next/navigation";
 
 const PromptPage = () => {
+  const { setSelectedProject } = useProjectContext();
+  const pathName = usePathname();
   const [promptData, setPromptData] = useState(false);
   const [prompt, setPrompt] = useState<String>("");
+  const projectId = pathName.split("/")[3];
+  console.log(pathName.split("/")[3]);
+
+  useEffect(() => {
+    const getProjectDetails = async () => {
+      const result = await projectApis.getProjectDetails(projectId);
+      const { data } = result.data;
+      setSelectedProject(data);
+    };
+    try {
+      getProjectDetails();
+    } catch (error) {}
+  }, []);
 
   return (
     <>

@@ -1,21 +1,19 @@
 "use client";
 
-import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+
 import { useUserContext } from "@context/UserContex";
+import { useProjectContext } from "@context/ProjectContext";
 
 import PrimaryButton from "@components/buttons/PrimaryButton";
-import { getUserDetails } from "@utils/crypto";
 import ProjectList from "@components/projectList";
-import { projectApis } from "@apis/project/projectApis";
-import { useProjectContext } from "@context/ProjectContext";
 
 const Sidebar = () => {
   const router = useRouter();
   const { user, displayLogoutModal } = useUserContext();
   const { projectList, displayDeleteModal } = useProjectContext();
-  
+
   const handleClick = () => {
     router.push("/dashboard/create-project");
   };
@@ -34,7 +32,7 @@ const Sidebar = () => {
     <>
       {user && (
         <div className="relative bg-white admin-leftside-bar">
-          <div className="flex flex-col justify-start min-h-[100%]">
+          <div className="flex flex-col justify-start">
             <div className="p-6">
               <Image
                 src="/assets/logos/SiteLogo.svg"
@@ -54,51 +52,53 @@ const Sidebar = () => {
               projectList={projectList}
               handleDelete={handleDelete}
             />
-
-            <div className="flex-between px-6">
-              <div className="flex-center space-x-2 items-center">
-                <Image
-                  className="mt-1"
-                  src="/assets/icons/TutorialIcon.svg"
-                  alt=""
-                  width={16}
-                  height={15}
-                />
-                <p className="my-0 font-medium">Tutorials</p>
+            <div className="absolute bottom-0 w-full">
+              <div className="flex-between px-6">
+                <div className="flex-center space-x-2 items-center">
+                  <Image
+                    className="mt-1"
+                    src="/assets/icons/TutorialIcon.svg"
+                    alt=""
+                    width={16}
+                    height={15}
+                  />
+                  <p className="my-0 font-medium">Tutorials</p>
+                </div>
+                <div className="cursor-pointer">
+                  <Image
+                    className=""
+                    src="/assets/icons/RightArrow.svg"
+                    alt=""
+                    width={16.25}
+                    height={15}
+                  />
+                </div>
               </div>
-              <div className="cursor-pointer">
-                <Image
-                  className=""
-                  src="/assets/icons/RightArrow.svg"
-                  alt=""
-                  width={16.25}
-                  height={15}
-                />
-              </div>
-            </div>
 
-            <div className="border border-b my-4"></div>
-            <div className="flex-between px-6 py-1">
-              <div className="flex-center space-x-2 items-center">
-                <Image
-                  className="rounded-full"
-                  src={`https://lh3.googleusercontent.com/a/AAcHTtf3bvGw39iP5cqZUz4eY0szkGyCkeycmDxdCSZC5JW4Jw=s96-c`}
-                  alt="profile-photo"
-                  width={40}
-                  height={40}
-                />
+              <div className="border border-b my-4"></div>
 
-                <p>{user.fullName}</p>
-              </div>
-              <div
-                onClick={handleLogout}
-                className="cursor-pointer">
-                <Image
-                  src="/assets/icons/LogoutIcon.svg"
-                  alt="logout-icon"
-                  width={16.25}
-                  height={15}
-                />
+              <div className="flex-between px-6 py-1">
+                <div className="flex-center space-x-2 items-center">
+                  <Image
+                    className="rounded-full"
+                    src={`https://lh3.googleusercontent.com/a/AAcHTtf3bvGw39iP5cqZUz4eY0szkGyCkeycmDxdCSZC5JW4Jw=s96-c`}
+                    alt="profile-photo"
+                    width={40}
+                    height={40}
+                  />
+
+                  <p>{user.fullName}</p>
+                </div>
+                <div
+                  onClick={handleLogout}
+                  className="cursor-pointer">
+                  <Image
+                    src="/assets/icons/LogoutIcon.svg"
+                    alt="logout-icon"
+                    width={16.25}
+                    height={15}
+                  />
+                </div>
               </div>
             </div>
           </div>

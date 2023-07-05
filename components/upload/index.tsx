@@ -35,7 +35,6 @@ const UploadFile = ({
         console.log(error);
       }
     } else {
-      console.log("221");
       const files = e.target.files;
       Array.from(files).map(async (value: any) => {
         setThumbnailUploadedName((thumbnailUploadedName) => [
@@ -57,7 +56,7 @@ const UploadFile = ({
 
   return (
     <>
-      <div className="mt-4 border rounded-lg border-dotted border-uploadField  flex-center flex-col shadow-uploadField p-4 min-h-[350px]">
+      <div className="mt-4 border rounded-lg flex-center flex-col border-dotted border-uploadField shadow-uploadField p-4 min-h-[45vh]">
         <Image
           className="mb-4"
           src="/assets/icons/FileIcon.svg"
@@ -81,7 +80,7 @@ const UploadFile = ({
         {thumbnailUploadedName.length !== 0 && (
           <>
             <p className="my-1 text-green-500">Uploaded Files</p>
-            <div className="text-green-500  w-full flex-center space-x-2">
+            <div className="text-green-500 w-full text-center">
               {thumbnailUploadedName.map((value: any, index) => (
                 <p key={index}>{value}</p>
               ))}
