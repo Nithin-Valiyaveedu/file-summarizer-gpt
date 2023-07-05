@@ -36,9 +36,7 @@ const DocumentUpload = ({
         const { message } = result.data;
         successToast(message);
         setState(false);
-        // addProjectDocuments(response.data.data);
         const respons = await projectApis.getProjectDetails(projectId);
-        console.log("sssssssssssssssssssssssssss", respons);
         const dataResponse = await projectApis.getProjectDetails(projectId);
         let projectData = dataResponse.data;
         setSelectedProject(projectData.data);

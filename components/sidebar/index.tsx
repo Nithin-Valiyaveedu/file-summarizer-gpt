@@ -81,7 +81,7 @@ const Sidebar = () => {
                 <div className="flex-center space-x-2 items-center">
                   <Image
                     className="rounded-full"
-                    src={`https://lh3.googleusercontent.com/a/AAcHTtf3bvGw39iP5cqZUz4eY0szkGyCkeycmDxdCSZC5JW4Jw=s96-c`}
+                    src={user.picture}
                     alt="profile-photo"
                     width={40}
                     height={40}
