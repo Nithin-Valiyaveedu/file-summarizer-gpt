@@ -19,7 +19,7 @@ const ChatPrompt = ({
   };
 
   return (
-    <div className="absolute bottom-0 rounded-lg z-50 bg-white shadow-inputField w-[75%] left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+    <div className="absolute bottom-0 rounded-lg bg-white shadow-inputField w-[75%] left-1/2 transform -translate-x-1/2 -translate-y-1/2">
       <div className="flex flex-between relative p-4">
         <input
           className="w-full outline-none"

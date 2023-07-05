@@ -1,17 +1,19 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+
 import { useUserContext } from "@context/UserContex";
+import { useProjectContext } from "@context/ProjectContext";
 
 import PrimaryButton from "@components/buttons/PrimaryButton";
-import { getUserDetails } from "@utils/crypto";
+import ProjectList from "@components/projectList";
 
 const Sidebar = () => {
   const router = useRouter();
   const { user, displayLogoutModal } = useUserContext();
-  // const userData = getUserDetails();
+  const { projectList, displayDeleteModal } = useProjectContext();
+
   const handleClick = () => {
     router.push("/dashboard/create-project");
   };
@@ -19,14 +21,18 @@ const Sidebar = () => {
     displayLogoutModal();
   };
 
+  const handleDelete = (id: string) => {
+    console.log(id);
+    displayDeleteModal(id);
+  };
+
   console.log(user);
-  
 
   return (
     <>
       {user && (
         <div className="relative bg-white admin-leftside-bar">
-          <div className="flex flex-col justify-start min-h-[100%]">
+          <div className="flex flex-col justify-start">
             <div className="p-6">
               <Image
                 src="/assets/logos/SiteLogo.svg"
@@ -41,25 +47,13 @@ const Sidebar = () => {
                 text="+ Add new project"
                 onClick={handleClick}
               />
-              <p
-                className="mt-8"
-                style={{ color: "#999999" }}>
-                My Projects
-              </p>
-              <div className="flex-center min-h-[430px] ">
-                <div className="flex flex-col justify-center items-center">
-                  <Image
-                    src="/assets/icons/PaperIcon.svg"
-                    alt=""
-                    width={65}
-                    height={36}
-                  />
-                  <p className="font-semibold w-2/3 text-center">
-                    Created projects will appear here
-                  </p>
-                </div>
-              </div>
-              <div className="flex-between">
+            </div>
+            <ProjectList
+              projectList={projectList}
+              handleDelete={handleDelete}
+            />
+            <div className="absolute bottom-0 w-full">
+              <div className="flex-between px-6">
                 <div className="flex-center space-x-2 items-center">
                   <Image
                     className="mt-1"
@@ -80,24 +74,31 @@ const Sidebar = () => {
                   />
                 </div>
               </div>
-            </div>
-            <div className="border border-b my-4"></div>
-            <div className="flex-between px-6 py-1">
-              <div className="flex-center space-x-2 items-center">
-                <div className="w-10 h-10 flex-center rounded-full bg-gray-500 p-2">
-                  {/* {user.fullName.toUpperCase().charAt(0)} */}
+
+              <div className="border border-b my-4"></div>
+
+              <div className="flex-between px-6 py-1">
+                <div className="flex-center space-x-2 items-center">
+                  <Image
+                    className="rounded-full"
+                    src={`https://lh3.googleusercontent.com/a/AAcHTtf3bvGw39iP5cqZUz4eY0szkGyCkeycmDxdCSZC5JW4Jw=s96-c`}
+                    alt="profile-photo"
+                    width={40}
+                    height={40}
+                  />
+
+                  <p>{user.fullName}</p>
                 </div>
-                <p>{user.fullName}</p>
-              </div>
-              <div
-                onClick={handleLogout}
-                className="cursor-pointer">
-                <Image
-                  src="/assets/icons/LogoutIcon.svg"
-                  alt="logout-icon"
-                  width={16.25}
-                  height={15}
-                />
+                <div
+                  onClick={handleLogout}
+                  className="cursor-pointer">
+                  <Image
+                    src="/assets/icons/LogoutIcon.svg"
+                    alt="logout-icon"
+                    width={16.25}
+                    height={15}
+                  />
+                </div>
               </div>
             </div>
           </div>

@@ -16,7 +16,8 @@ const UserContextProvider = ({ children }) => {
     // checks if the user is authenticated
     setUser(getUserDetails())
     const { authToken } = getUserDetails();
-    authToken ? router.push("/dashboard") : router.push("/");
+    console.log("auth", authToken);
+    !authToken && router.push("/");
   }, []);
 
 

@@ -24,7 +24,8 @@ module.exports = {
       },
       textColor: {
         primaryColor: "#C37C2A",
-        secondaryColor: "#8D8D8D"
+        secondaryColor: "#8D8D8D",
+        'primary-gradient': 'linear-gradient(90deg, #BE7627 0%, #E3A53F 100%)',
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
@@ -40,7 +41,7 @@ module.exports = {
         youtubCard: '#3C3C3C',
         dashboard: '#F8F8F8',
         answerPrompt: "#F5E4DF",
-
+        projectClicked: "#DFA03D"
       },
       borderColor: {
         primaryBorder: "#E6E6E6",

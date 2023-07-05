@@ -10,7 +10,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import LoginCard from "@components/cards/LoginCard";
 import Image from "next/image";
 
-import { storeUserDetails, getUserDetails } from "@utils/crypto";
+import { storeUserDetails } from "@utils/crypto";
 import { useUserContext } from "../context/UserContex";
 import { successToast } from "@components/toast";
 
