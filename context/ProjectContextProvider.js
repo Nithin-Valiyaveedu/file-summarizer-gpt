@@ -72,6 +72,18 @@ const ProjectContextProvider = ({ children }) => {
     }
   }
 
+  useEffect(() => {
+    if (pathname !== '/') {
+      const getProjectList = async () => {
+        const response = await projectApis.viewProjects();
+        const { data } = response.data;
+        setProjectList(data.rows);
+      };
+      getProjectList();
+    }
+  }, [pathname]);
+
+
   return (<ProjectContext.Provider
     value={{
       projectList,

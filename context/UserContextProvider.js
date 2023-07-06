@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation"
 
 const UserContextProvider = ({ children }) => {
   const router = useRouter()
-  const [user, setUser] = useState({})
+  const [user, setUser] = useState("")
   const [logoutModal, setLogoutModal] = useState(false)
   const displayLogoutModal = () => setLogoutModal(true);
 
@@ -16,7 +16,6 @@ const UserContextProvider = ({ children }) => {
     // checks if the user is authenticated
     setUser(getUserDetails())
     const { authToken } = getUserDetails();
-    console.log("auth", authToken);
     !authToken && router.push("/");
   }, []);
 

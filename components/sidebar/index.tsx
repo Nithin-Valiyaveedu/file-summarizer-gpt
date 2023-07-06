@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import { useUserContext } from "@context/UserContex";
 import { useProjectContext } from "@context/ProjectContext";
 
@@ -29,25 +30,30 @@ const Sidebar = () => {
   console.log(user);
 
   return (
-    <>
-      {user && (
-        <div className="relative bg-white admin-leftside-bar">
-          <div className="flex flex-col justify-start">
-            <div className="p-6">
-              <Image
-                src="/assets/logos/SiteLogo.svg"
-                alt=""
-                width={65}
-                height={36}
-              />
-            </div>
-            <div className="flex flex-col px-6 ">
-              <PrimaryButton
-                classNames="bg-primary-button text-white"
-                text="+ Add new project"
-                onClick={handleClick}
-              />
-            </div>
+    <div className="relative bg-white admin-leftside-bar">
+      <div className="flex flex-col justify-start">
+        <div className="p-6">
+          <Image
+            src="/assets/logos/SiteLogo.svg"
+            alt=""
+            width={65}
+            height={36}
+          />
+        </div>
+        <div className="flex flex-col px-6 ">
+          <PrimaryButton
+            classNames="bg-primary-button text-white"
+            text="+ Add new project"
+            onClick={handleClick}
+          />
+        </div>
+        <p
+          className="mt-8 px-6 font-semibold mb-2"
+          style={{ color: "#999999" }}>
+          My Projects
+        </p>
+        {user ? (
+          <>
             <ProjectList
               projectList={projectList}
               handleDelete={handleDelete}
@@ -86,9 +92,9 @@ const Sidebar = () => {
                     width={40}
                     height={40}
                   />
-
                   <p>{user.fullName}</p>
                 </div>
+
                 <div
                   onClick={handleLogout}
                   className="cursor-pointer">
@@ -101,10 +107,19 @@ const Sidebar = () => {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      )}
-    </>
+          </>
+        ) : (
+          <SkeletonTheme highlightColor="#F9F9F9F9">
+            <p className="px-4 py-2">
+              <Skeleton
+                count={6}
+                height={20}
+              />
+            </p>
+          </SkeletonTheme>
+        )}
+      </div>
+    </div>
   );
 };
 
