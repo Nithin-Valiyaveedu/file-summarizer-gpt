@@ -1,4 +1,5 @@
 import "@styles/globals.css";
+import 'react-loading-skeleton/dist/skeleton.css'
 import { Toast } from "../components/toast/index";
 import UserContextProvider from "@context/UserContextProvider";
 import ProjectContextProvider from "@context/ProjectContextProvider";

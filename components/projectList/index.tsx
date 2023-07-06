@@ -1,5 +1,6 @@
 import Loader from "@components/loader";
 import Image from "next/image";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
 import { useRouter, usePathname } from "next/navigation";
 
@@ -12,26 +13,21 @@ const ProjectList = ({
 }) => {
   const router = useRouter();
   const pathname = usePathname();
-  console.log(projectList);
   const projectId = pathname.split("/")[3] || "";
 
   return (
     <>
-      {projectList ? (
+      {projectList && (
         <>
           {projectList.length !== 0 ? (
             <div className="min-h-[70vh] ">
-              <p
-                className="mt-8 px-6 font-semibold mb-2"
-                style={{ color: "#999999" }}>
-                My Projects
-              </p>
-
               {projectList.map(({ projectName, id }: any, index: any) => (
                 <div
                   key={index}
                   className={`relative ${
-                    projectId === id ? "bg-projectClicked opacity-[50%]" : "bg-white"
+                    projectId === id
+                      ? "bg-projectClicked opacity-[50%]"
+                      : "bg-white"
                   } flex w-full space-x-2 px-4 py-2 `}>
                   <Image
                     src="/assets/icons/FolderIcon.svg"
@@ -79,8 +75,6 @@ const ProjectList = ({
             </div>
           )}
         </>
-      ) : (
-        <Loader classNames="min-h-[500px]" />
       )}
     </>
   );
