@@ -56,9 +56,7 @@ const ProjectContextProvider = ({ children }) => {
     try {
       const response = await projectApis.delteProjectFiles(fileId)
       const { message } = response.data
-      console.log(response);
       successToast(message)
-      console.log(selectedProject.ProjectFiles);
       let { ProjectFiles } = selectedProject
       const filteredData = ProjectFiles.filter(item => item.id !== fileId)
       setSelectedProject({
@@ -69,6 +67,7 @@ const ProjectContextProvider = ({ children }) => {
       console.log(error);
     } finally {
       setFileDeleteModal(false);
+      setProjectFilesModal(true)
     }
   }
 

@@ -11,6 +11,7 @@ import UploadFile from "@components/upload";
 import { projectApis } from "@apis/project/projectApis";
 import { errorToast, successToast } from "@components/toast";
 import { projectFormValidation } from "@utils/formValidation";
+import Loader from "@components/loader";
 
 const CreateProject = () => {
   const router = useRouter();
@@ -18,6 +19,7 @@ const CreateProject = () => {
   const { addProject } = useProjectContext();
   const [formData, setFormData] = useState("");
   const [filePath, setFilePath] = useState<object[]>([]);
+  const [loader, setLoader] = useState<boolean>(false);
 
   const handleSubmit = async () => {
     let payload = {
@@ -29,19 +31,24 @@ const CreateProject = () => {
       errorToast(formError);
     } else {
       try {
+        setLoader(true);
         const result: any = await projectApis.addProject(payload);
         const { data, message } = result.data;
+        console.log(data);
         successToast(message);
+        router.push(`/dashboard/chat-prompt/${data.id}`);
         addProject(data);
-        router.push("/dashboard/chat-prompt");
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoader(false);
       }
     }
   };
 
   return (
     <div className="flex w-full 850px:w-1/2 2xl:w-1/3 850px:mt-8 mb-2 mx-auto mt-20 p-2">
+      {loader && <Loader />}
       <div className="w-full py-4 px-6 border border-primaryBorder shadow-createProject rounded-md bg-white">
         <p className="text-secondary">
           Hello, <b className="text-black font-medium">{user.fullName}</b>

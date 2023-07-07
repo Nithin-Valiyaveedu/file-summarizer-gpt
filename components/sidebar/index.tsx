@@ -27,8 +27,6 @@ const Sidebar = () => {
     displayDeleteModal(id);
   };
 
-  console.log(user);
-
   return (
     <div className="relative bg-white admin-leftside-bar">
       <div className="flex flex-col justify-start">
@@ -36,8 +34,8 @@ const Sidebar = () => {
           <Image
             src="/assets/logos/SiteLogo.svg"
             alt=""
-            width={65}
-            height={36}
+            width={38}
+            height={20}
           />
         </div>
         <div className="flex flex-col px-6 ">

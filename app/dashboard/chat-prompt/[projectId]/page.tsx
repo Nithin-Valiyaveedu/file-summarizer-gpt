@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 import ChatPrompt from "@components/chatprompt";
 import { useProjectContext } from "@context/ProjectContext";
 import { projectApis } from "@apis/project/projectApis";
-import { usePathname, useRouter } from "next/navigation";
 
 const PromptPage = () => {
   const { setSelectedProject } = useProjectContext();

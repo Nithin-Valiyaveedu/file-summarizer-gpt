@@ -8,8 +8,10 @@ import { chatPromptApis } from "@apis/chatgpt/chatPrompt";
 
 import AiPrompt from "@components/chatprompt/aiPrompt";
 import UserPrompt from "@components/chatprompt/userPrompt";
+import { useUserContext } from "@context/UserContex";
 
 const ChatPrompt = ({ projectId }: { projectId: string }) => {
+  const { user } = useUserContext();
   const [chatPrompt, setChatPrompt] = useState("");
   const [loader, setLoader] = useState<any>();
   const [chatLog, setChatLog] = useState<any[]>([]);
@@ -33,12 +35,15 @@ const ChatPrompt = ({ projectId }: { projectId: string }) => {
     e.preventDefault();
 
     setChatPrompt("");
-    setChatLog((chatLog) => [...chatLog, { user: "me", message: chatPrompt }]);
+    setChatLog((chatLog) => [
+      ...chatLog,
+      { chatUser: "me", message: chatPrompt },
+    ]);
     let payload = { promt: chatPrompt, history: [] };
     try {
       setLoader(true);
       const response = await chatPromptApis.getChatResponse(payload, projectId);
-      let chatResponse = { user: "gpt", message: response.data.data.text };
+      let chatResponse = { chatUser: "gpt", message: response.data.data.text };
       setChatLog((chatLog) => [...chatLog, chatResponse]);
     } catch (error) {
       console.log(error);
@@ -53,12 +58,15 @@ const ChatPrompt = ({ projectId }: { projectId: string }) => {
         <div
           ref={messageEl}
           className="overflow-y-scroll h-[75vh] mt-6">
-          {chatLog.map(({ user, message }, index) => (
+          {chatLog.map(({ chatUser, message }, index) => (
             <div
               key={index}
               className="mt-4 mb-2">
-              {user === "me" ? (
-                <UserPrompt content={message} />
+              {chatUser === "me" ? (
+                <UserPrompt
+                  picture={user.picture}
+                  content={message}
+                />
               ) : (
                 <AiPrompt content={message} />
               )}
