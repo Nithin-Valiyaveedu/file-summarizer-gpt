@@ -13,7 +13,16 @@ const ChatPrompt = ({ projectId }: { projectId: string }) => {
   const [chatPrompt, setChatPrompt] = useState("");
   const [loader, setLoader] = useState<any>();
   const [chatLog, setChatLog] = useState<any[]>([]);
-  const bottomRef = useRef<any>(null);
+  const messageEl = useRef<any>(null);
+
+  useEffect(() => {
+    if (messageEl) {
+      messageEl.current?.addEventListener("DOMNodeInserted", (event: any) => {
+        const { currentTarget: target } = event;
+        target.scroll({ top: target.scrollHeight, behavior: "smooth" });
+      });
+    }
+  }, [chatLog]);
 
   const handleChange = (e: any) => {
     const { value } = e.target;
@@ -41,7 +50,9 @@ const ChatPrompt = ({ projectId }: { projectId: string }) => {
   return (
     <div className="">
       {chatLog.length !== 0 ? (
-        <div className="overflow-y-scroll h-[75vh] mt-6">
+        <div
+          ref={messageEl}
+          className="overflow-y-scroll h-[75vh] mt-6">
           {chatLog.map(({ user, message }, index) => (
             <div
               key={index}

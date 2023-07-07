@@ -52,7 +52,7 @@ const Sidebar = () => {
           style={{ color: "#999999" }}>
           My Projects
         </p>
-        {user ? (
+        {user && projectList ? (
           <>
             <ProjectList
               projectList={projectList}
