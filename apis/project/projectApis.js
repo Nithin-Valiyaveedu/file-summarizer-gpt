@@ -2,7 +2,7 @@ import axiosInstance from "../axios";
 
 const addProject = payload => axiosInstance.post("/project/add-project", payload);
 const uploadProjectFiles = (payload) => axiosInstance.post("/common/file-upload", payload);
-const viewProjects = () => axiosInstance.get("/project/get-my-projects");
+const viewProjects = (limit, offset) => axiosInstance.get(`/project/get-my-projects?limit=${limit}&offset=${offset}`);
 const deleteProject = (projectId) => axiosInstance.delete(`/project/delete-project/${projectId}`);
 const getProjectDetails = (projectId) => axiosInstance.get(`/project/get-project-details/${projectId}`);
 const addProjectFiles = (payload, projectId) => axiosInstance.post(`/project/add-project-files/${projectId}`, payload);

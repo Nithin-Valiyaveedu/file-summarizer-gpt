@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { ProjectContext } from "./ProjectContext"
 
 import { projectApis } from "../apis/project/projectApis"
@@ -9,7 +9,9 @@ import { successToast } from "@components/toast"
 
 const ProjectContextProvider = ({ children }) => {
   const pathname = usePathname()
-  const [projectList, setProjectList] = useState()
+  const router = useRouter()
+  const [projectList, setProjectList] = useState("")
+  const [projectCount, setTotalProjectCount] = useState()
   const [selectedProject, setSelectedProject] = useState("")
   const [deleteModal, setDeleteModal] = useState(false)
   const [fileDeleteModal, setFileDeleteModal] = useState(false)
@@ -43,6 +45,7 @@ const ProjectContextProvider = ({ children }) => {
       console.log(error);
     } finally {
       setDeleteModal(false);
+      router.push("/dashboard")
     }
   }
 
@@ -71,16 +74,25 @@ const ProjectContextProvider = ({ children }) => {
     }
   }
 
-  useEffect(() => {
-    if (pathname !== '/') {
-      const getProjectList = async () => {
-        const response = await projectApis.viewProjects();
-        const { data } = response.data;
-        setProjectList(data.rows);
-      };
-      getProjectList();
+  const getProjectList = async (limit, offset, type = "normal") => {
+    const response = await projectApis.viewProjects(limit, offset);
+    const { data } = response.data;
+    setTotalProjectCount(data.count)
+    if (type === "scroll") {
+      setProjectList((projectList) => [...projectList, ...data.rows]);
     }
-  }, [pathname]);
+    else {
+      setProjectList(data.rows);
+    }
+
+
+  };
+
+  // useEffect(() => {
+  //   if (pathname !== '/') {
+  //     getProjectList(13, 0, "normal");
+  //   }
+  // }, [pathname]);
 
 
   return (<ProjectContext.Provider
@@ -100,7 +112,9 @@ const ProjectContextProvider = ({ children }) => {
       setFileDeleteModal,
       displayDeleteFileModal,
       deleteProjectFile,
-      addProjectDocuments
+      addProjectDocuments,
+      getProjectList,
+      projectCount,
     }}>
     {children}
   </ProjectContext.Provider>)

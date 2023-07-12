@@ -1,7 +1,9 @@
 "use client";
 
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import { useUserContext } from "@context/UserContex";
@@ -12,8 +14,14 @@ import ProjectList from "@components/projectList";
 
 const Sidebar = () => {
   const router = useRouter();
+
   const { user, displayLogoutModal } = useUserContext();
-  const { projectList, displayDeleteModal } = useProjectContext();
+  const { projectList, displayDeleteModal, getProjectList, projectCount } =
+    useProjectContext();
+
+  useEffect(() => {
+    getProjectList(13, 0, "normal");
+  }, []);
 
   const handleClick = () => {
     router.push("/dashboard/create-project");
@@ -30,31 +38,37 @@ const Sidebar = () => {
   return (
     <div className="relative bg-white admin-leftside-bar">
       <div className="flex flex-col justify-start">
-        <div className="p-6">
+        <Link
+          href="/dashboard"
+          className="p-6 w-fit">
           <Image
             src="/assets/logos/SiteLogo.svg"
             alt=""
             width={38}
             height={20}
           />
-        </div>
-        <div className="flex flex-col px-6 ">
-          <PrimaryButton
-            classNames="bg-primary-button text-white"
-            text="+ Add new project"
-            onClick={handleClick}
-          />
-        </div>
+        </Link>
+        <Link href="/dashboard/create-project">
+          <div className="flex flex-col px-6 ">
+            <PrimaryButton
+              classNames="bg-primary-button text-white"
+              text="+ Add new project"
+              onClick={handleClick}
+            />
+          </div>
+        </Link>
         <p
           className="mt-8 px-6 font-semibold mb-2"
           style={{ color: "#999999" }}>
           My Projects
         </p>
-        {user && projectList ? (
+        {projectList ? (
           <>
             <ProjectList
               projectList={projectList}
               handleDelete={handleDelete}
+              getProjectList={getProjectList}
+              projectCount={projectCount}
             />
             <div className="absolute bottom-0 w-full">
               <div className="flex-between px-6">

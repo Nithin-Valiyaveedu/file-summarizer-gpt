@@ -118,7 +118,9 @@ export default function DashBoardLayout({
         <Sidebar />
         <div className="flex flex-col w-full min-h-screen bg-dashboard relative">
           <Navbar />
-          {children}
+          <div className="overflow-x-scroll">
+            <div className="min-w-[500px]">{children}</div>
+          </div>
         </div>
       </div>
     </div>
