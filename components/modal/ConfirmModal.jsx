@@ -1,6 +1,6 @@
 import React from "react";
 
-const ConfirmModal = ({ setState, content, yesClick }) => {
+const ConfirmModal = ({ setState, content, yesClick, loader = false }) => {
   return (
     <>
       <div className="text-center bg-white rounded-lg py-4 min-w-fit 500px:w-[400px] px-4 ">
@@ -12,12 +12,12 @@ const ConfirmModal = ({ setState, content, yesClick }) => {
         </p>
         <div className="flex-center w-full space-x-4 mt-12">
           <button
-            className="decline-button"
+            className={`decline-button`}
             onClick={() => setState((state) => !state)}>
             No
           </button>
           <button
-            className="confirm-button"
+            className={`confirm-button ${loader && "cursor-not-allowed"}`}
             onClick={yesClick}>
             Yes
           </button>

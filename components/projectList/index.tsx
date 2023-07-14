@@ -12,7 +12,7 @@ const ProjectList = ({
   projectCount,
 }: {
   projectList: any;
-  handleDelete: (id: string) => void;
+  handleDelete: (id: string, name: string) => void;
   getProjectList: (limit: number, offset: number, type: string) => void;
   projectCount: number;
 }) => {
@@ -73,7 +73,7 @@ const ProjectList = ({
                   <div
                     className="cursor-pointer"
                     onClick={() => {
-                      handleDelete(id);
+                      handleDelete(id, projectName);
                     }}>
                     <Image
                       src="/assets/icons/DeleteIcon.svg"

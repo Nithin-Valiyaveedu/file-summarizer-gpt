@@ -53,10 +53,7 @@ axiosInstance.interceptors.response.use(
         });
         return false;
       }
-      else if (err.response.status === 400) {
-        errorToast(err.response.data.error.message)
-        return false;
-      }
+
       throw err;
     });
   }

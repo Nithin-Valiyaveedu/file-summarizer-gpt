@@ -1,4 +1,6 @@
 "use client";
+
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useUserContext } from "@context/UserContex";
 import { useProjectContext } from "@context/ProjectContext";
@@ -6,12 +8,13 @@ import { authenticationApi } from "@apis/auth/googleAuth";
 
 import { removeUserDataFromLS } from "@utils/crypto";
 
-import { successToast } from "@components/toast";
+import { successToast, errorToast } from "@components/toast";
 import Navbar from "@components/navbar";
 import Sidebar from "@components/sidebar";
 import ConfirmModal from "@components/modal/ConfirmModal.jsx";
 import ViewDocumentModal from "@components/modal/ViewDocument.jsx";
 import ModalOuter from "@components/modal/ModalOuter";
+import Loader from "@components/loader";
 
 export default function DashBoardLayout({
   children,
@@ -20,6 +23,7 @@ export default function DashBoardLayout({
 }) {
   const router = useRouter();
   const { logoutModal, setLogoutModal } = useUserContext();
+  const [loader, setLoader] = useState(false);
   const {
     deleteModal,
     setDeleteModal,
@@ -34,18 +38,19 @@ export default function DashBoardLayout({
 
   const handleLogout = async () => {
     try {
+      setLoader(true);
       const response = await authenticationApi.logout();
       console.log(response);
       successToast(response.data.message);
       setLogoutModal(false);
       router.push("/");
       removeUserDataFromLS();
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      errorToast(error.response.data.error.message);
+    } finally {
+      setLoader(false);
     }
   };
-
-  console.log(fileDeleteModal);
 
   return (
     <div className="min-h-screen mx-auto bg-dashboard">
@@ -63,10 +68,11 @@ export default function DashBoardLayout({
             }}
             setState={setLogoutModal}
             yesClick={handleLogout}
+            loader={loader}
           />
         </ModalOuter>
       )}
-      {fileDeleteModal && (
+      {fileDeleteModal.display && (
         <ModalOuter
           heading="Delete Document"
           blockOutsideClick={false}
@@ -75,8 +81,8 @@ export default function DashBoardLayout({
           classNames="hideScrollbar">
           <ConfirmModal
             content={{
-              title: "Are you sure wants to delete this Document?",
-              description: "",
+              title: "Are you sure you want to delete this Document?",
+              description: `Delete ${fileDeleteModal.name}`,
             }}
             setState={setFileDeleteModal}
             yesClick={() => deleteProjectFile()}
@@ -84,7 +90,7 @@ export default function DashBoardLayout({
         </ModalOuter>
       )}
 
-      {deleteModal && (
+      {deleteModal.display && (
         <ModalOuter
           heading="Delete Project"
           blockOutsideClick={false}
@@ -94,7 +100,7 @@ export default function DashBoardLayout({
           <ConfirmModal
             content={{
               title: "Are you sure you want to delete this project?",
-              description: "",
+              description: `Delete ${deleteModal.name}`,
             }}
             setState={setDeleteModal}
             yesClick={() => deleteProject()}
@@ -118,7 +124,7 @@ export default function DashBoardLayout({
         <Sidebar />
         <div className="flex flex-col w-full min-h-screen bg-dashboard relative">
           <Navbar />
-          <div className="overflow-x-scroll">
+          <div className="overflow-x-auto">
             <div className="min-w-[500px]">{children}</div>
           </div>
         </div>

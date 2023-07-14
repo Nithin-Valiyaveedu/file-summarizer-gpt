@@ -39,7 +39,12 @@ const Navbar = () => {
               </p>
             </button>
           )}
-          <p className="text-xs underline cursor-pointer">Need Help?</p>
+          <a
+            href="https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=michael@cornerstoneleaders.com"
+            target="_blank"
+            className="text-xs underline cursor-pointer">
+            Need Help?
+          </a>
         </div>
       </div>
     </>

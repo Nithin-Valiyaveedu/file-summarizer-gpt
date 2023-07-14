@@ -12,6 +12,7 @@ interface ButtonProps {
 
 import { useGoogleLogin } from "@react-oauth/google";
 import { useRouter } from "next/navigation";
+import { errorToast } from "@components/toast";
 
 const LoginCard = ({
   header,
@@ -27,8 +28,8 @@ const LoginCard = ({
         setLoader(true);
         const result: any = await authenticationApi.googleAuth(payload);
         setUserData(result.data);
-      } catch (error) {
-        console.log(error);
+      } catch (error: any) {
+        errorToast(error.response.data.error.message);
       } finally {
         setLoader(false);
         router.push("/dashboard");

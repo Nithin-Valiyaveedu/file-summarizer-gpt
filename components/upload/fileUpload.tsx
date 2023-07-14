@@ -3,7 +3,7 @@
 import React, { SetStateAction, Dispatch } from "react";
 import { useRouter } from "next/navigation";
 
-import { successToast } from "@components/toast";
+import { successToast, errorToast } from "@components/toast";
 import { projectApis } from "@apis/project/projectApis";
 import { useProjectContext } from "@context/ProjectContext";
 
@@ -19,30 +19,32 @@ const DocumentUpload = ({
   setState: Dispatch<SetStateAction<Boolean>>;
 }) => {
   const router = useRouter();
-  const { setSelectedProject } = useProjectContext();
+  const { setSelectedProject, setCommonLoader } = useProjectContext();
   const handleUploadImage = async (e: any) => {
-    console.log("221");
     const files = e.target.files;
     Array.from(files).map(async (value: any) => {
       let formData = new FormData();
       formData.append("documents", value);
       try {
+        setCommonLoader(true);
         const result: any = await projectApis.uploadProjectFiles(formData);
         const { data } = result.data;
-        const response = await projectApis.addProjectFiles(
+        await projectApis.addProjectFiles(
           { projectFiles: [data.path] },
           projectId
         );
         const { message } = result.data;
         successToast(message);
         setState(false);
-        const respons = await projectApis.getProjectDetails(projectId);
+        await projectApis.getProjectDetails(projectId);
         const dataResponse = await projectApis.getProjectDetails(projectId);
         let projectData = dataResponse.data;
         setSelectedProject(projectData.data);
         router.push(`/dashboard/chat-prompt/${projectId}`);
-      } catch (error) {
-        console.log(error);
+      } catch (error: any) {
+        errorToast(error.response.data.error.message);
+      } finally {
+        setCommonLoader(false);
       }
     });
   };

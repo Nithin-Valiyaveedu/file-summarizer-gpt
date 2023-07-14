@@ -1,14 +1,16 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 
 import ChatPrompt from "@components/chatprompt";
 import { useProjectContext } from "@context/ProjectContext";
 import { projectApis } from "@apis/project/projectApis";
+import Loader from "@components/loader";
+import { errorToast } from "@components/toast";
 
 const PromptPage = () => {
-  const { setSelectedProject } = useProjectContext();
+  const { commonLoader, setSelectedProject } = useProjectContext();
   const pathName = usePathname();
   const projectId = pathName.split("/")[3];
 
@@ -20,13 +22,14 @@ const PromptPage = () => {
     };
     try {
       getProjectDetails();
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      errorToast(error.response.data.error.message);
     }
   }, []);
 
   return (
     <>
+      {commonLoader && <Loader />}
       <ChatPrompt projectId={projectId} />
     </>
   );

@@ -13,7 +13,6 @@ const ViewDocumentModal = ({ selectedProject, setState }) => {
   const [filePath, setFilePath] = useState([]);
   const { displayDeleteFileModal } = useProjectContext();
 
-  console.log(selectedProject);
   return (
     <>
       <div className="text-center bg-white rounded-lg py-4 min-w-fit 500px:w-[400px] px-4 ">
@@ -47,7 +46,7 @@ const ViewDocumentModal = ({ selectedProject, setState }) => {
                 className="cursor-pointer bg-default rounded-xl z-50 absolute -bottom-1 right-2 p-0.5 border border-b"
                 onClick={(e) => {
                   e.stopPropagation();
-                  displayDeleteFileModal(id);
+                  displayDeleteFileModal(id, file);
                 }}>
                 <Image
                   className=" "

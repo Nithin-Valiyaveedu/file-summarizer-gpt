@@ -31,8 +31,8 @@ const UploadFile = ({
           ...thumbnailUploadedName,
           file.name,
         ]);
-      } catch (error) {
-        console.log(error);
+      } catch (error: any) {
+        errorToast(error.response.data.error.message);
       }
     } else {
       const files = e.target.files;
@@ -47,8 +47,8 @@ const UploadFile = ({
             ...thumbnailUploadedName,
             value.name,
           ]);
-        } catch (error) {
-          console.log(error);
+        } catch (error: any) {
+          errorToast(error.response.data.error.message);
         }
       });
     }

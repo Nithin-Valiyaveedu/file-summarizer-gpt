@@ -9,6 +9,7 @@ import { chatPromptApis } from "@apis/chatgpt/chatPrompt";
 import AiPrompt from "@components/chatprompt/aiPrompt";
 import UserPrompt from "@components/chatprompt/userPrompt";
 import { useUserContext } from "@context/UserContex";
+import { errorToast, infoToast } from "@components/toast";
 
 const ChatPrompt = ({ projectId }: { projectId: string }) => {
   const { user } = useUserContext();
@@ -33,22 +34,31 @@ const ChatPrompt = ({ projectId }: { projectId: string }) => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-
-    setChatPrompt("");
-    setChatLog((chatLog) => [
-      ...chatLog,
-      { chatUser: "me", message: chatPrompt },
-    ]);
-    let payload = { promt: chatPrompt, history: [] };
-    try {
-      setLoader(true);
-      const response = await chatPromptApis.getChatResponse(payload, projectId);
-      let chatResponse = { chatUser: "gpt", message: response.data.data.text };
-      setChatLog((chatLog) => [...chatLog, chatResponse]);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoader(false);
+    if (chatPrompt.trim() === "") {
+      infoToast("Please enter a prompt");
+    } else {
+      setChatPrompt("");
+      setChatLog((chatLog) => [
+        ...chatLog,
+        { chatUser: "me", message: chatPrompt },
+      ]);
+      let payload = { promt: chatPrompt, history: [] };
+      try {
+        setLoader(true);
+        const response = await chatPromptApis.getChatResponse(
+          payload,
+          projectId
+        );
+        let chatResponse = {
+          chatUser: "gpt",
+          message: response.data.data.text,
+        };
+        setChatLog((chatLog) => [...chatLog, chatResponse]);
+      } catch (error: any) {
+        errorToast(error.response.data.error.message);
+      } finally {
+        setLoader(false);
+      }
     }
   };
 
@@ -100,14 +110,18 @@ const ChatPrompt = ({ projectId }: { projectId: string }) => {
           <div className="flex flex-between relative p-4">
             <input
               disabled={loader}
-              className="w-full outline-none bg-transparent"
+              className={`w-full outline-none bg-transparent  ${
+                loader && "hover:cursor-not-allowed"
+              }`}
               placeholder="Type your message here"
               value={chatPrompt}
               onChange={(e) => handleChange(e)}
             />
             <div onClick={handleSubmit}>
               <Image
-                className="cursor-pointer"
+                className={`cursor-pointer ${
+                  loader && "hover:cursor-not-allowed"
+                }`}
                 src="/assets/icons/MessageIcon.svg"
                 alt=""
                 width={21}
