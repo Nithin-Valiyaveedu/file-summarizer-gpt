@@ -1,8 +1,8 @@
 "use client";
 
-import React, { SetStateAction, Dispatch } from "react";
+import React, { useState, SetStateAction, Dispatch } from "react";
 
-import { useState } from "react";
+import { errorToast } from "@components/toast";
 import { projectApis } from "@apis/project/projectApis";
 
 import Image from "next/image";
@@ -22,31 +22,31 @@ const UploadFile = ({
     if (e.target.files.length === 1) {
       let formData = new FormData();
       const file = e.target.files[0];
-      setThumbnailUploadedName((thumbnailUploadedName) => [
-        ...thumbnailUploadedName,
-        file.name,
-      ]);
       formData.append("documents", file);
       try {
         const result: any = await projectApis.uploadProjectFiles(formData);
         const { data } = result.data;
         setFilePath((filePath) => [...filePath, data.path]);
+        setThumbnailUploadedName((thumbnailUploadedName) => [
+          ...thumbnailUploadedName,
+          file.name,
+        ]);
       } catch (error) {
         console.log(error);
       }
     } else {
       const files = e.target.files;
       Array.from(files).map(async (value: any) => {
-        setThumbnailUploadedName((thumbnailUploadedName) => [
-          ...thumbnailUploadedName,
-          value.name,
-        ]);
         let formData = new FormData();
         formData.append("documents", value);
         try {
           const result: any = await projectApis.uploadProjectFiles(formData);
           const { data } = result.data;
           setFilePath((filePath) => [...filePath, data.path]);
+          setThumbnailUploadedName((thumbnailUploadedName) => [
+            ...thumbnailUploadedName,
+            value.name,
+          ]);
         } catch (error) {
           console.log(error);
         }
