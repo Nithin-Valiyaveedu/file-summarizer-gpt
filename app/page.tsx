@@ -14,6 +14,7 @@ import { storeUserDetails } from "@utils/crypto";
 import { useUserContext } from "../context/UserContex";
 import { successToast } from "@components/toast";
 import Loader from "@components/loader";
+import CustomCarousal from "@components/carousal";
 
 const Login = () => {
   const router = useRouter();
@@ -50,8 +51,9 @@ const Login = () => {
               setLoader={setLoader}
             />
           </div>
-          <div className="text-white bg-login-gradient 850px:w-[50%] 2xl:w-[70%] 850px:rounded-l-[21px] p-10 h-[100%]">
-            <Carousel
+          <div className=" text-white bg-login-gradient 850px:w-[70%] 2xl:w-[100%] 850px:rounded-l-[21px] p-10 min-h-[100%]">
+            <CustomCarousal />
+            {/* <Carousel
               showArrows={false}
               showStatus={false}
               showThumbs={false}
@@ -129,7 +131,7 @@ const Login = () => {
                   Find all the details about reengineering you business
                 </p>
               </div>
-            </Carousel>
+            </Carousel> */}
           </div>
         </div>
       </GoogleOAuthProvider>
