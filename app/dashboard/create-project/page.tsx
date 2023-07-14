@@ -1,18 +1,17 @@
 "use client";
-import { useState } from "react";
 
+import { useState } from "react";
 import { useUserContext } from "@context/UserContex";
 import { useProjectContext } from "@context/ProjectContext";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 
 import PrimaryButton from "@components/buttons/PrimaryButton";
 import Input from "@components/input";
+import Loader from "@components/loader";
 import UploadFile from "@components/upload";
 import { projectApis } from "@apis/project/projectApis";
 import { errorToast, successToast } from "@components/toast";
 import { projectFormValidation } from "@utils/formValidation";
-import Loader from "@components/loader";
 
 const CreateProject = () => {
   const router = useRouter();
@@ -21,11 +20,15 @@ const CreateProject = () => {
   const [formData, setFormData] = useState("");
   const [filePath, setFilePath] = useState<object[]>([]);
   const [loader, setLoader] = useState<boolean>(false);
+  const [thumbnailUploadedName, setThumbnailUploadedName] = useState<string[]>(
+    []
+  );
 
   const handleSubmit = async () => {
     let payload = {
       projectName: formData,
       projectFiles: filePath,
+      fileNames: thumbnailUploadedName,
     };
     const formError: any = projectFormValidation(payload);
     if (formError !== "") {
@@ -67,6 +70,8 @@ const CreateProject = () => {
         <UploadFile
           filePath={filePath}
           setFilePath={setFilePath}
+          thumbnailUploadedName={thumbnailUploadedName}
+          setThumbnailUploadedName={setThumbnailUploadedName}
         />
         <PrimaryButton
           text="Add Project"

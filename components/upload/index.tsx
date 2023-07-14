@@ -10,14 +10,14 @@ import Image from "next/image";
 const UploadFile = ({
   filePath,
   setFilePath,
+  thumbnailUploadedName,
+  setThumbnailUploadedName,
 }: {
   filePath: object[];
   setFilePath: Dispatch<SetStateAction<Object[]>>;
+  thumbnailUploadedName: string[];
+  setThumbnailUploadedName: Dispatch<SetStateAction<string[]>>;
 }) => {
-  const [thumbnailUploadedName, setThumbnailUploadedName] = useState<object[]>(
-    []
-  );
-
   const handleUploadImage = async (e: any) => {
     if (e.target.files.length === 1) {
       let formData = new FormData();

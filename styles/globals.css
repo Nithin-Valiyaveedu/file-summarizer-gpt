@@ -105,12 +105,17 @@ iframe {
   color: #BE7627;
 }
 
+.gradient-border {
+  background: linear-gradient(90deg, #BE7627 0%, #E3A53F 100%);
+
+}
+
 .confirm-button {
   @apply bg-primary-button flex-center border p-2 rounded-3xl w-1/2 text-white font-semibold
 }
 
 .decline-button {
-  @apply flex-center text-primaryColor border border-2 border-buttonBorder p-2 rounded-3xl w-1/2 font-semibold gradient-text 
+  @apply flex-center p-2 w-1/2 font-semibold gradient-text gradient-border rounded-3xl
 }
 
 
@@ -137,7 +142,26 @@ iframe {
   background: linear-gradient(90deg, #BE7627 0%, #E3A53F 100%);
   background-clip: text;
   color: transparent;
+}
 
+.gradient-border {
+  position: relative;
+  display: inline-block;
+}
+
+.gradient-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 38px;
+  padding: 1.5px;
+  background: linear-gradient(90deg, #BE7627 0%, #E3A53F 100%);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
 }
 
 /* custom scrollbar */

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { SetStateAction, Dispatch } from "react";
+import React, { SetStateAction, Dispatch, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { successToast, errorToast } from "@components/toast";
@@ -19,6 +19,10 @@ const DocumentUpload = ({
   setState: Dispatch<SetStateAction<Boolean>>;
 }) => {
   const router = useRouter();
+  const [thumbnailUploadedName, setThumbnailUploadedName] = useState<string[]>(
+    []
+  );
+
   const { setSelectedProject, setCommonLoader } = useProjectContext();
   const handleUploadImage = async (e: any) => {
     const files = e.target.files;
@@ -28,13 +32,16 @@ const DocumentUpload = ({
       try {
         setCommonLoader(true);
         const result: any = await projectApis.uploadProjectFiles(formData);
+        let fileNames: string[] = [];
+        fileNames = [...fileNames, value.name];
         const { data } = result.data;
         await projectApis.addProjectFiles(
-          { projectFiles: [data.path] },
+          {
+            projectFiles: [data.path],
+            fileNames,
+          },
           projectId
         );
-        const { message } = result.data;
-        successToast(message);
         setState(false);
         await projectApis.getProjectDetails(projectId);
         const dataResponse = await projectApis.getProjectDetails(projectId);

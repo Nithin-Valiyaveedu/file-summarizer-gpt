@@ -49,6 +49,7 @@ module.exports = {
         inputField: "#E9E9E9",
         uploadField: "#E2A43F",
         buttonBorder: "#BE7627",
+        button: 'linear-gradient(90deg, #BE7627 0%, #E3A53F 100%)',
       },
       boxShadow: {
         loginButton: "0px 4px 6px rgba(0, 0, 0, 0.07)",

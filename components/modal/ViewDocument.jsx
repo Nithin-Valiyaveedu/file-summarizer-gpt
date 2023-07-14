@@ -23,7 +23,7 @@ const ViewDocumentModal = ({ selectedProject, setState }) => {
             projectId={projectId}
             setState={setState}
           />
-          {selectedProject.ProjectFiles.map(({ file, id }, index) => (
+          {selectedProject.ProjectFiles.map(({ file, fileName, id }, index) => (
             <div
               key={index}
               className="cursor-pointer relative"
@@ -46,7 +46,7 @@ const ViewDocumentModal = ({ selectedProject, setState }) => {
                 className="cursor-pointer bg-default rounded-xl z-50 absolute -bottom-1 right-2 p-0.5 border border-b"
                 onClick={(e) => {
                   e.stopPropagation();
-                  displayDeleteFileModal(id, file);
+                  displayDeleteFileModal(id, fileName);
                 }}>
                 <Image
                   className=" "
