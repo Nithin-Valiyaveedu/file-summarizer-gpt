@@ -1,5 +1,7 @@
-import { getUserDetails, getUserTokenFromLocalStorage } from '@utils/crypto';
 import axios from 'axios';
+
+import { getUserTokenFromLocalStorage } from '@utils/crypto';
+import { errorToast } from '@components/toast';
 
 const axiosInstance = axios.create({
   baseURL: process.env.BACKEND_API_URL, // Replace with your API base URL
@@ -9,7 +11,6 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config) => {
     // Modify the request config here (add headers, authentication tokens)
-    console.log(getUserTokenFromLocalStorage());
     const accessToken = getUserTokenFromLocalStorage();
     // If token is present add it to request's Authorization Header
     if (accessToken) {
@@ -29,16 +30,34 @@ axiosInstance.interceptors.request.use(
 // Response interceptor
 axiosInstance.interceptors.response.use(
   (response) => {
-    // Modify the response data here
-
     return response;
   },
-  (error) => {
-    // Handle response errors here
+  (err) => {
+    return new Promise(function (resolve, reject) {
+      if (err.response && err.response.status === 403) {
+        localStorage.clear();
+        setTimeout(() => {
+          window.location.replace("/");
+        });
+        return false;
+      } else if (err.response && err.response.code === 500) {
+        console.error("Internal Server Error");
+        errorToast(err.response.data?.message)
+        window.location.reload();
+        return false;
+      } else if (err.response && err.response.status === 401) {
+        toast.error("Session Timeout");
+        localStorage.removeItem("userData");
+        setTimeout(() => {
+          window.location.replace("/");
+        });
+        return false;
+      }
 
-    return Promise.reject(error);
+      throw err;
+    });
   }
 );
-// End of Response interceptor
+
 
 export default axiosInstance;

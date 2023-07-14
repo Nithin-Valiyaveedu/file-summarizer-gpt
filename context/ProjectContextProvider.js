@@ -5,7 +5,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { ProjectContext } from "./ProjectContext"
 
 import { projectApis } from "../apis/project/projectApis"
-import { successToast } from "@components/toast"
+import { errorToast, successToast } from "@components/toast"
 
 const ProjectContextProvider = ({ children }) => {
   const pathname = usePathname()
@@ -13,15 +13,16 @@ const ProjectContextProvider = ({ children }) => {
   const [projectList, setProjectList] = useState("")
   const [projectCount, setTotalProjectCount] = useState()
   const [selectedProject, setSelectedProject] = useState("")
-  const [deleteModal, setDeleteModal] = useState(false)
-  const [fileDeleteModal, setFileDeleteModal] = useState(false)
+  const [deleteModal, setDeleteModal] = useState({ display: false, name: "" })
+  const [fileDeleteModal, setFileDeleteModal] = useState({ display: false, name: "" })
   const [projectId, setProjectId] = useState("")
   const [fileId, setFileId] = useState("")
   const [projectFilesModal, setProjectFilesModal] = useState(false)
+  const [commonLoader, setCommonLoader] = useState(false)
 
-  const displayDeleteModal = (id) => {
+  const displayDeleteModal = (id, projectName) => {
     setProjectId(id)
-    setDeleteModal(true);
+    setDeleteModal({ display: true, name: projectName });
   }
   const addProject = (data) => {
     setProjectList([data, ...projectList])
@@ -42,16 +43,16 @@ const ProjectContextProvider = ({ children }) => {
       const filteredData = projectList.filter(item => item.id !== projectId)
       setProjectList(filteredData)
     } catch (error) {
-      console.log(error);
+      errorToast(error.response.data.error.message)
     } finally {
       setDeleteModal(false);
       router.push("/dashboard")
     }
   }
 
-  const displayDeleteFileModal = (id) => {
+  const displayDeleteFileModal = (id, fileName) => {
     setProjectFilesModal(false)
-    setFileDeleteModal(true);
+    setFileDeleteModal({ display: true, name: fileName });
     setFileId(id)
   }
 
@@ -67,7 +68,7 @@ const ProjectContextProvider = ({ children }) => {
         ProjectFiles: filteredData
       })
     } catch (error) {
-      console.log(error);
+      errorToast(error.response.data.error.message)
     } finally {
       setFileDeleteModal(false);
       setProjectFilesModal(true)
@@ -84,16 +85,7 @@ const ProjectContextProvider = ({ children }) => {
     else {
       setProjectList(data.rows);
     }
-
-
   };
-
-  // useEffect(() => {
-  //   if (pathname !== '/') {
-  //     getProjectList(13, 0, "normal");
-  //   }
-  // }, [pathname]);
-
 
   return (<ProjectContext.Provider
     value={{
@@ -115,6 +107,8 @@ const ProjectContextProvider = ({ children }) => {
       addProjectDocuments,
       getProjectList,
       projectCount,
+      commonLoader,
+      setCommonLoader
     }}>
     {children}
   </ProjectContext.Provider>)

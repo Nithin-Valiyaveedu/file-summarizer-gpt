@@ -35,12 +35,11 @@ const CreateProject = () => {
         setLoader(true);
         const result: any = await projectApis.addProject(payload);
         const { data, message } = result.data;
-        console.log(data);
         successToast(message);
         router.push(`/dashboard/chat-prompt/${data.id}`);
         addProject(data);
-      } catch (error) {
-        console.log(error);
+      } catch (error: any) {
+        errorToast(error.response.data.message);
       } finally {
         setLoader(false);
       }

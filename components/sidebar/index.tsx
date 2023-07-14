@@ -11,6 +11,7 @@ import { useProjectContext } from "@context/ProjectContext";
 
 import PrimaryButton from "@components/buttons/PrimaryButton";
 import ProjectList from "@components/projectList";
+import { infoToast } from "@components/toast";
 
 const Sidebar = () => {
   const router = useRouter();
@@ -30,9 +31,8 @@ const Sidebar = () => {
     displayLogoutModal();
   };
 
-  const handleDelete = (id: string) => {
-    console.log(id);
-    displayDeleteModal(id);
+  const handleDelete = (id: string, projectName: string) => {
+    displayDeleteModal(id, projectName);
   };
 
   return (
@@ -82,7 +82,11 @@ const Sidebar = () => {
                   />
                   <p className="my-0 font-medium">Tutorials</p>
                 </div>
-                <div className="cursor-pointer">
+                <div
+                  className="cursor-pointer"
+                  onClick={() => {
+                    infoToast("Coming Soon");
+                  }}>
                   <Image
                     className=""
                     src="/assets/icons/RightArrow.svg"
