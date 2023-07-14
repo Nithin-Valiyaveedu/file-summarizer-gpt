@@ -7,8 +7,8 @@ const CustomCarousal = () => {
   // const [selected, setSelected] = useState<number>(0);
 
   const [activeIndex, setActiveIndex] = useState<number>(0);
-
-  const sliderValues: { name: string; desc: string; src: string }[] = [
+  const [loader, setLoader] = useState<boolean>(true);
+  const [sliderValues, setSliderValues] = useState<object[]>([
     {
       name: "Business Process Reengineering",
       desc: "Find all the details about reengineering you business",
@@ -16,31 +16,26 @@ const CustomCarousal = () => {
     },
     {
       name: "Business Process Reengineering",
-      desc: "   Find all the details about reengineering you business",
+      desc: "Find all the details about reengineering you business",
       src: "https://www.youtube.com/embed/QH2-TGUlwu4?fs=0&color=white&controls=0&disablekb=1",
     },
     {
       name: "Business Process Reengineering",
-      desc: "   Find all the details about reengineering you business",
+      desc: "Find all the details about reengineering you business",
       src: "https://www.youtube.com/embed/QH2-TGUlwu4?fs=0&color=white&controls=0&disablekb=1",
     },
-  ];
+  ]);
 
-  // useEffect(() => {
-  //   const slide: any = document.querySelectorAll("#slide");
-  //   slide.forEach((slid: any, indx: any) => {
-  //     slid.style.transform = `translateX(${indx * 100}%)`;
-  //   });
-  // }, []);
+  useEffect(() => {
+    setTimeout(() => {
+      setLoader(false);
+    }, 500);
+  });
 
   useEffect(() => {
     const slide: any = document.querySelectorAll("#slide");
-    let currIndex = 0;
-    currIndex = activeIndex;
     slide.forEach((slid: any, indx: any) => {
-      console.log(indx);
-
-      slid.style.transform = `translateX(${(indx - currIndex) * 100}%)`;
+      slid.style.transform = `translateX(${(indx - activeIndex) * 100}%)`;
     });
   }, [activeIndex]);
 
@@ -49,16 +44,16 @@ const CustomCarousal = () => {
   };
 
   return (
-    // <div className="imageContainer border border-white ">
     <>
       <div className="relative text-left h-[85vh] w-full">
         <div className="slides ">
           <div className="flex">
-            {sliderValues.map((item, index) => (
+            {sliderValues.map((item: any, index) => (
               <div
                 className={`slide ${
                   activeIndex !== index ? "opacity-50 ml-10" : ""
-                }`}
+                }
+                ${loader && activeIndex !== index && "hidden"}`}
                 key={index}
                 id="slide">
                 <div className="bg-youtubCard w-full p-2 rounded-lg mt-8 h-1/2">
