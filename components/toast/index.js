@@ -6,9 +6,10 @@ export const Toast = () => (
   <>
     <ToastContainer
       position="top-right"
-      autoClose={5000}
+      autoClose={2000}
+      limit={1}
       hideProgressBar={false}
-      newestOnTop={false}
+      newestOnTop={true}
       closeOnClick
       rtl={false}
       pauseOnFocusLoss
@@ -20,9 +21,13 @@ export const Toast = () => (
 );
 
 export const errorToast = (
-  message = "something went wrong, Try again later!"
-) => toast.error(message);
-
-export const successToast = (message) => toast.success(message);
+  message = "Something went wrong, Try again later!"
+) => {
+  toast.error(message);
+  toast.clearWaitingQueue()
+}
+export const successToast = (message) => {
+  toast.success(message)
+  toast.clearWaitingQueue()
+}
 export const infoToast = (message) => toast.warning(message);
-export const deafultToast = (message) => toast(message);
