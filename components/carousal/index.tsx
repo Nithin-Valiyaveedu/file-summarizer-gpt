@@ -74,7 +74,7 @@ const CustomCarousal = () => {
                   </div>
                   <p>Watch on Youtube</p>
                 </div>
-                <h1 className="text-3xl mt-4 w-2/5">{item.name}</h1>
+                <h1 className="text-3xl mt-4 w-1/2">{item.name}</h1>
                 <p className="mt-4 opacity-50">{item.desc}</p>
               </div>
             ))}
@@ -87,7 +87,7 @@ const CustomCarousal = () => {
             key={index}
             onClick={() => handleClick(index)}
             className={`cursor-pointer w-11 h-11 p-2 text-sm rounded-full ${
-              true
+              activeIndex === index
                 ? "border border-white text-white"
                 : "border border-gray-500 text-gray-500"
             }`}
