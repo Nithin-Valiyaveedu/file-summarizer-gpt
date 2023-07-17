@@ -39,7 +39,8 @@ body {
 
 iframe {
   margin: auto !important;
-  width: 80% !important;
+  /* width: 80% !important; */
+  /* height: 100% !important; */
 }
 
 
@@ -179,4 +180,20 @@ iframe {
   border-radius: 5px;
   background-color: #BE7627;
   border: 2px solid #BE7627;
+}
+
+/* //custom carousal */
+
+.slides {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+
+}
+
+.slide {
+  position: absolute;
+  width: 80%;
+  height: 75vh;
+  transition: all 0.5s;
 }
