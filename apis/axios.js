@@ -46,7 +46,7 @@ axiosInstance.interceptors.response.use(
         window.location.reload();
         return false;
       } else if (err.response && err.response.status === 401) {
-        toast.error("Session Timeout");
+        errorToast("Session Timeout");
         localStorage.removeItem("userData");
         setTimeout(() => {
           window.location.replace("/");
