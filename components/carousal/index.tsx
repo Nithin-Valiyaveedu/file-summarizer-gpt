@@ -51,7 +51,7 @@ const CustomCarousal = () => {
             {sliderValues.map((item: any, index) => (
               <div
                 className={`slide ${
-                  activeIndex !== index ? "opacity-50 ml-10" : ""
+                  activeIndex !== index ? "md:opacity-50 md:ml-10" : ""
                 }
                 ${loader && activeIndex !== index && "hidden"}`}
                 key={index}

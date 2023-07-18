@@ -1,7 +1,7 @@
 
 import ClipLoader from "react-spinners/ClipLoader";
 
-const Loader = ({ text }) => {
+const Loader = ({ text = "" }) => {
   return (<>
     <div className={`fixed top-0 left-0 right-0 bottom-0 w-full h-screen z-50 opacity-70 inset-0 bg-black flex-col flex-center`}>
       <ClipLoader color="#BE7627" />

@@ -182,8 +182,6 @@ iframe {
   border: 2px solid #BE7627;
 }
 
-/* //custom carousal */
-
 .slides {
   position: relative;
   height: 100%;
@@ -196,4 +194,10 @@ iframe {
   width: 80%;
   height: 75vh;
   transition: all 0.5s;
+}
+
+@media (max-width: 850px) {
+  .slide {
+    width: 100%;
+  }
 }

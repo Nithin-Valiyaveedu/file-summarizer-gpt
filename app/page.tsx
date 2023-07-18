@@ -34,9 +34,9 @@ const Login = () => {
     <>
       <GoogleOAuthProvider
         clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ""}>
-        <div className="flex flex-col 850px:flex-row min-h-screen w-full border">
+        <div className="flex flex-col 850px:flex-row min-h-screen w-full">
           {loader && <Loader />}
-          <div className="w-[80%] p-8">
+          <div className="w-full 850px:w-[80%] p-8">
             <Image
               className="my-8"
               src="/assets/logos/SiteLogo.svg"
