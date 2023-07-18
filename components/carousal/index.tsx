@@ -10,7 +10,7 @@ const CustomCarousal = () => {
   const [loader, setLoader] = useState<boolean>(true);
   const [sliderValues, setSliderValues] = useState<object[]>([
     {
-      name: "Business Process Reengineering",
+      name: "How to Start a Business",
       desc: "Find all the details about reengineering you business",
       src: "https://www.youtube.com/embed/awnn-bqV_Tw?fs=0&color=white&controls=0&disablekb=1",
     },
