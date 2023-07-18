@@ -29,7 +29,7 @@ const PromptPage = () => {
 
   return (
     <>
-      {commonLoader && <Loader />}
+      {commonLoader && <Loader text="Intiatiation..." />}
       <ChatPrompt projectId={projectId} />
     </>
   );
