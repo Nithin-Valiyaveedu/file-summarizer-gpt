@@ -12,17 +12,17 @@ const CustomCarousal = () => {
     {
       name: "Business Process Reengineering",
       desc: "Find all the details about reengineering you business",
-      src: "https://www.youtube.com/embed/QH2-TGUlwu4?fs=0&color=white&controls=0&disablekb=1",
+      src: "https://www.youtube.com/embed/awnn-bqV_Tw?fs=0&color=white&controls=0&disablekb=1",
     },
     {
       name: "Business Process Reengineering",
       desc: "Find all the details about reengineering you business",
-      src: "https://www.youtube.com/embed/QH2-TGUlwu4?fs=0&color=white&controls=0&disablekb=1",
+      src: "https://www.youtube.com/embed/awnn-bqV_Tw?fs=0&color=white&controls=0&disablekb=1",
     },
     {
       name: "Business Process Reengineering",
       desc: "Find all the details about reengineering you business",
-      src: "https://www.youtube.com/embed/QH2-TGUlwu4?fs=0&color=white&controls=0&disablekb=1",
+      src: "https://www.youtube.com/embed/awnn-bqV_Tw?fs=0&color=white&controls=0&disablekb=1",
     },
   ]);
 
@@ -60,7 +60,7 @@ const CustomCarousal = () => {
                   <iframe
                     height="100%"
                     width="100%"
-                    src="https://www.youtube.com/embed/QH2-TGUlwu4?fs=0&color=white&controls=0&disablekb=1"
+                    src={item.src}
                     title="A YouTube video"></iframe>
                 </div>
                 <div className="flex items-center space-x-2 mt-2 hover:underline cursor-pointer ">
