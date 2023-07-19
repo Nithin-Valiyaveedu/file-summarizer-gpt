@@ -24,9 +24,7 @@ const ProjectList = ({
   const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
-    console.log("ssss", projectList.length);
     if (projectList.length === projectCount) {
-      console.log("sadsadadasd");
       setHasMore(false);
       return;
     }
@@ -36,7 +34,6 @@ const ProjectList = ({
     getProjectList(limit, limit + offset, "scroll");
     setOffset((offset) => offset + limit);
   };
-  console.log("nithinnn");
 
   return (
     <>
