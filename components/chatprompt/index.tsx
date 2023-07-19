@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 import Image from "next/image";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
@@ -12,20 +13,37 @@ import { useUserContext } from "@context/UserContex";
 import { errorToast, infoToast } from "@components/toast";
 
 const ChatPrompt = ({ projectId }: { projectId: string }) => {
+  let limit = 3;
   const { user } = useUserContext();
   const [chatPrompt, setChatPrompt] = useState("");
   const [loader, setLoader] = useState<any>();
   const [chatLog, setChatLog] = useState<any[]>([]);
+  const [offset, setOffset] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
   const messageEl = useRef<any>(null);
 
-  useEffect(() => {
-    if (messageEl) {
-      messageEl.current?.addEventListener("DOMNodeInserted", (event: any) => {
-        const { currentTarget: target } = event;
-        target.scroll({ top: target.scrollHeight, behavior: "smooth" });
+  const getChatData = async (limit: any, offset: any) => {
+    try {
+      const response = await chatPromptApis.getChatHistory(
+        projectId,
+        limit,
+        offset
+      );
+      const { data } = response.data;
+      data.rows.forEach((value: any) => {
+        console.log(value);
+        let questionHistory = { chatUser: "me", message: value.question };
+        let answerHistory = { chatUser: "gpt", message: value.answer };
+        setChatLog((chatLog) => [...chatLog, questionHistory, answerHistory]);
       });
+    } catch (error) {
+      console.log(error);
     }
-  }, [chatLog]);
+  };
+
+  useEffect(() => {
+    getChatData(limit, offset);
+  }, []);
 
   const handleChange = (e: any) => {
     const { value } = e.target;
@@ -37,6 +55,10 @@ const ChatPrompt = ({ projectId }: { projectId: string }) => {
     if (chatPrompt.trim() === "") {
       infoToast("Please enter a prompt");
     } else {
+      messageEl.current?.addEventListener("DOMNodeInserted", (event: any) => {
+        const { currentTarget: target } = event;
+        target.scroll({ top: target.scrollHeight, behavior: "smooth" });
+      });
       setChatPrompt("");
       setChatLog((chatLog) => [
         ...chatLog,
@@ -62,35 +84,49 @@ const ChatPrompt = ({ projectId }: { projectId: string }) => {
     }
   };
 
+  const fetchMoreData = async () => {
+    console.log("hehehehe");
+    getChatData(limit, limit + offset);
+    setOffset((offset) => offset + limit);
+  };
+
   return (
     <div className="">
       {chatLog.length !== 0 ? (
         <div
+          id="scrollableDiv"
           ref={messageEl}
           className="overflow-y-scroll h-[75vh] mt-6">
-          {chatLog.map(({ chatUser, message }, index) => (
-            <div
-              key={index}
-              className="mt-4 mb-2">
-              {chatUser === "me" ? (
-                <UserPrompt
-                  picture={user.picture}
-                  content={message}
-                />
-              ) : (
-                <AiPrompt content={message} />
-              )}
-            </div>
-          ))}
-          {loader && (
-            <SkeletonTheme
-              baseColor="#F5E4DF"
-              highlightColor="#F9F9F9F9">
-              <div className="mt-2 w-[70%] mx-auto">
-                <Skeleton height={100} />
+          <InfiniteScroll
+            dataLength={10}
+            next={fetchMoreData}
+            hasMore={hasMore}
+            loader={false}
+            scrollableTarget="scrollableDiv">
+            {chatLog.map(({ chatUser, message }, index) => (
+              <div
+                key={index}
+                className="mt-4 mb-2">
+                {chatUser === "me" ? (
+                  <UserPrompt
+                    picture={user.picture}
+                    content={message}
+                  />
+                ) : (
+                  <AiPrompt content={message} />
+                )}
               </div>
-            </SkeletonTheme>
-          )}
+            ))}
+            {loader && (
+              <SkeletonTheme
+                baseColor="#F5E4DF"
+                highlightColor="#F9F9F9F9">
+                <div className="mt-2 w-[70%] mx-auto">
+                  <Skeleton height={100} />
+                </div>
+              </SkeletonTheme>
+            )}
+          </InfiniteScroll>
         </div>
       ) : (
         <div className="flex-col flex-center min-h-[90vh]">

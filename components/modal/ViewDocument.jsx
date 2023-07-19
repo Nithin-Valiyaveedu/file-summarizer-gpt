@@ -16,17 +16,19 @@ const ViewDocumentModal = ({ selectedProject, setState }) => {
   return (
     <>
       <div className="text-center bg-white rounded-lg py-4 min-w-fit 500px:w-[400px] px-4 ">
-        <div className="grid grid-cols-4 gap-2">
-          <DocumentUpload
-            filePath={filePath}
-            setFilePath={setFilePath}
-            projectId={projectId}
-            setState={setState}
-          />
+        <DocumentUpload
+          filePath={filePath}
+          setFilePath={setFilePath}
+          projectId={projectId}
+          setState={setState}
+        />
+        <div
+          id="scrollableDiv"
+          className="flex flex-col max-h-[500px] overflow-y-auto p-2">
           {selectedProject.ProjectFiles.map(({ file, fileName, id }, index) => (
             <div
               key={index}
-              className="cursor-pointer relative"
+              className="cursor-pointer relative mt-2"
               onClick={() =>
                 window.open(
                   process.env.BACKEND_API_URL +
@@ -41,9 +43,10 @@ const ViewDocumentModal = ({ selectedProject, setState }) => {
                 width={64}
                 height={64}
               />
+              <p className="text-left">{fileName}</p>
 
               <div
-                className="cursor-pointer bg-default rounded-xl z-50 absolute -bottom-1 right-2 p-0.5 border border-b"
+                className="cursor-pointer bg-default rounded-xl z-50 absolute top-6 right-0 p-0.5 border border-b"
                 onClick={(e) => {
                   e.stopPropagation();
                   displayDeleteFileModal(id, fileName);
@@ -52,8 +55,8 @@ const ViewDocumentModal = ({ selectedProject, setState }) => {
                   className=" "
                   src="/assets/icons/DeleteIcon.svg"
                   alt=""
-                  width={15}
-                  height={20}
+                  width={20}
+                  height={30}
                 />
               </div>
             </div>

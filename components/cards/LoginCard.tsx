@@ -32,7 +32,6 @@ const LoginCard = ({
         errorToast(error.response.data.error.message);
       } finally {
         setLoader(false);
-        router.push("/dashboard");
       }
     },
     onError: (errorResponse) => console.log(errorResponse),
