@@ -26,6 +26,7 @@ const Login = () => {
     if (userData) {
       storeUserDetails(userData.data);
       setUser(userData.data);
+      router.push("/dashboard");
       successToast(userData.message);
     }
   }, [userData]);

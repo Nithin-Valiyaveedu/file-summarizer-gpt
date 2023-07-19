@@ -71,6 +71,14 @@ const Sidebar = () => {
               projectCount={projectCount}
             />
             <div className="absolute bottom-0 w-full">
+              <Link
+                href="/dashboard/example-prompt"
+                className="px-6 mb-2 hover:underline cursor-pointer hover:text-primaryColor font-medium">
+                <p className="px-6 mb-2 hover:underline cursor-pointer hover:text-primaryColor font-medium">
+                  Example Prompt
+                </p>
+              </Link>
+
               <div className="flex-between px-6">
                 <div className="flex-center space-x-2 items-center">
                   <Image
@@ -80,7 +88,7 @@ const Sidebar = () => {
                     width={16}
                     height={15}
                   />
-                  <p className="my-0 font-medium">Tutorials</p>
+                  <p className="font-medium">Tutorials</p>
                 </div>
                 <div
                   className="cursor-pointer"

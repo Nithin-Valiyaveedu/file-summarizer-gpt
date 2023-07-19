@@ -50,7 +50,7 @@ const CreateProject = () => {
   };
 
   return (
-    <div className="flex w-full 850px:w-1/2 2xl:w-1/3 850px:mt-8 mb-2 mx-auto mt-20 p-2">
+    <div className="flex w-full md:w-2/3 850px:w-2/3 2xl:w-1/3 850px:mt-8 mb-2 mx-auto mt-20 p-2">
       {loader && <Loader />}
       <div className="w-full py-4 px-6 border border-primaryBorder shadow-createProject rounded-md bg-white">
         <p className="text-secondary">
