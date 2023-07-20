@@ -37,14 +37,16 @@ const ViewDocumentModal = ({ selectedProject, setState }) => {
                   "_blank"
                 )
               }>
-              <div className="grid grid-cols-3 items-center">
-                <Image
-                  src="/assets/icons/TextFileIcon.svg"
-                  alt=""
-                  width={64}
-                  height={64}
-                />
-                <p>{fileName}</p>
+              <div className="flex justify-between items-center mt-2">
+                <div className="flex items-center space-x-4">
+                  <Image
+                    src="/assets/icons/TextFileIcon.svg"
+                    alt=""
+                    width={64}
+                    height={64}
+                  />
+                  <p>{fileName}</p>
+                </div>
                 <div
                   className="cursor-pointer bg-default rounded-xl z-50 absolute top-6 right-0 p-0.5 border border-b"
                   onClick={(e) => {

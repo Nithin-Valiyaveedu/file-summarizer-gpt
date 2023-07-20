@@ -3,9 +3,6 @@ import remarkGfm from "remark-gfm";
 import Image from "next/image";
 
 const AiPrompt = ({ content }: { content: any }) => {
-  console.log(content);
-  const input = "# This is a header\n\nAnd this is a paragraph";
-
   return (
     <>
       <div className="relative flex w-[70%] mx-auto mt-4">
