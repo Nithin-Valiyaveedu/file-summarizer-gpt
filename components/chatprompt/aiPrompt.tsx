@@ -1,12 +1,19 @@
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import Image from "next/image";
 
-const AiPrompt = ({ content }: { content: String }) => {
+const AiPrompt = ({ content }: { content: any }) => {
+  console.log(content);
+  const input = "# This is a header\n\nAnd this is a paragraph";
+
   return (
     <>
       <div className="relative flex w-[70%] mx-auto mt-4">
-        <div
-          className="bg-shadow w-full p-2 bg-answerPrompt rounded-lg"
-          dangerouslySetInnerHTML={{ __html: content }}></div>
+        <ReactMarkdown
+          className="bg-shadow p-2 bg-answerPrompt rounded-lg words w-full"
+          children={content}
+          remarkPlugins={[remarkGfm]}></ReactMarkdown>
+
         <div className="absolute -right-12 flex-center p-2 w-10 h-10 bg-white rounded-full">
           <Image
             src="/assets/logos/SiteLogo.svg"

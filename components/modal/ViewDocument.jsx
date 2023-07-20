@@ -24,7 +24,7 @@ const ViewDocumentModal = ({ selectedProject, setState }) => {
         />
         <div
           id="scrollableDiv"
-          className="flex flex-col max-h-[500px] overflow-y-auto p-2">
+          className="flex flex-col max-h-[500px] overflow-y-auto pr-2">
           {selectedProject.ProjectFiles.map(({ file, fileName, id }, index) => (
             <div
               key={index}
@@ -37,27 +37,28 @@ const ViewDocumentModal = ({ selectedProject, setState }) => {
                   "_blank"
                 )
               }>
-              <Image
-                src="/assets/icons/TextFileIcon.svg"
-                alt=""
-                width={64}
-                height={64}
-              />
-              <p className="text-left">{fileName}</p>
-
-              <div
-                className="cursor-pointer bg-default rounded-xl z-50 absolute top-6 right-0 p-0.5 border border-b"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  displayDeleteFileModal(id, fileName);
-                }}>
+              <div className="grid grid-cols-3 items-center">
                 <Image
-                  className=" "
-                  src="/assets/icons/DeleteIcon.svg"
+                  src="/assets/icons/TextFileIcon.svg"
                   alt=""
-                  width={20}
-                  height={30}
+                  width={64}
+                  height={64}
                 />
+                <p>{fileName}</p>
+                <div
+                  className="cursor-pointer bg-default rounded-xl z-50 absolute top-6 right-0 p-0.5 border border-b"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    displayDeleteFileModal(id, fileName);
+                  }}>
+                  <Image
+                    className=" "
+                    src="/assets/icons/DeleteIcon.svg"
+                    alt=""
+                    width={20}
+                    height={30}
+                  />
+                </div>
               </div>
             </div>
           ))}

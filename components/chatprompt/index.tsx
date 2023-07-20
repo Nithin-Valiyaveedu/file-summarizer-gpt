@@ -13,7 +13,7 @@ import { useUserContext } from "@context/UserContex";
 import { errorToast, infoToast } from "@components/toast";
 
 const ChatPrompt = ({ projectId }: { projectId: string }) => {
-  let limit = 3;
+  let limit = 5;
   const { user } = useUserContext();
   const [chatPrompt, setChatPrompt] = useState("");
   const [loader, setLoader] = useState<any>();
@@ -94,7 +94,7 @@ const ChatPrompt = ({ projectId }: { projectId: string }) => {
     <div className="">
       {chatLog.length !== 0 ? (
         <div
-          id="scrollableDiv"
+          id="scrollable"
           ref={messageEl}
           className="overflow-y-scroll h-[75vh] mt-6">
           <InfiniteScroll
@@ -102,7 +102,7 @@ const ChatPrompt = ({ projectId }: { projectId: string }) => {
             next={fetchMoreData}
             hasMore={hasMore}
             loader={false}
-            scrollableTarget="scrollableDiv">
+            scrollableTarget="scrollable">
             {chatLog.map(({ chatUser, message }, index) => (
               <div
                 key={index}
