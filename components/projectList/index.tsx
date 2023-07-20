@@ -40,7 +40,7 @@ const ProjectList = ({
       {projectList.length !== 0 ? (
         <div
           id="scrollableDiv"
-          className="h-[450px] overflow-y-auto ">
+          className="h-[370px] overflow-y-auto">
           <InfiniteScroll
             dataLength={projectCount}
             next={fetchMoreData}
@@ -52,7 +52,7 @@ const ProjectList = ({
                 key={index}
                 className={`relative ${
                   projectId === id ? "bg-gray-300" : "bg-white"
-                } flex w-full space-x-2 px-4 py-2 `}>
+                } flex w-full space-x-2 px-6 py-2 `}>
                 <Image
                   src="/assets/icons/FolderIcon.svg"
                   alt=""
@@ -66,7 +66,7 @@ const ProjectList = ({
                 <div
                   className="flex-between w-full cursor-pointer"
                   onClick={() => router.push(`/dashboard/chat-prompt/${id}`)}>
-                  <p className="text-sm font-medium">{projectName}</p>
+                  <p className="text-sm font-medium oneLineContent">{projectName}</p>
                   <div
                     className="cursor-pointer"
                     onClick={() => {
@@ -85,7 +85,7 @@ const ProjectList = ({
           </InfiniteScroll>
         </div>
       ) : (
-        <div className="flex-center min-h-[500px] ">
+        <div className="flex-center min-h-[370px]">
           <div className="flex flex-col justify-center items-center">
             <Image
               src="/assets/icons/PaperIcon.svg"

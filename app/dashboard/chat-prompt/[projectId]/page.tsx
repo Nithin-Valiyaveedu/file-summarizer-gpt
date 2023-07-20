@@ -13,12 +13,19 @@ const PromptPage = () => {
   const { commonLoader, setSelectedProject } = useProjectContext();
   const pathName = usePathname();
   const projectId = pathName.split("/")[3];
+  const [loader, setLoader] = useState(true);
 
   useEffect(() => {
     const getProjectDetails = async () => {
-      const result = await projectApis.getProjectDetails(projectId);
-      const { data } = result.data;
-      setSelectedProject(data);
+      try {
+        const result = await projectApis.getProjectDetails(projectId);
+        const { data } = result.data;
+        setSelectedProject(data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoader(false);
+      }
     };
     try {
       getProjectDetails();
@@ -30,7 +37,10 @@ const PromptPage = () => {
   return (
     <>
       {commonLoader && <Loader text="Intiatiation..." />}
-      <ChatPrompt projectId={projectId} />
+      <ChatPrompt
+        dashboardLoader={loader}
+        projectId={projectId}
+      />
     </>
   );
 };

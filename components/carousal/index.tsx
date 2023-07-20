@@ -45,39 +45,51 @@ const CustomCarousal = () => {
 
   return (
     <>
-      <div className="relative text-left h-[85vh] w-full">
+      <div className="relative text-left h-[80vh] w-full">
         <div className="slides ">
           <div className="flex">
-            {sliderValues.map((item: any, index) => (
-              <div
-                className={`slide ${
-                  activeIndex !== index ? "md:opacity-50 md:ml-10" : ""
-                }
+            {sliderValues.map((item: any, index) => {
+              let watchOnYoutube = item.src.split("/")[4].split("?")[0];
+              return (
+                <>
+                  <div
+                    className={`slide ${
+                      activeIndex !== index ? "md:opacity-50 md:ml-10" : ""
+                    }
                 ${loader && activeIndex !== index && "hidden"}`}
-                key={index}
-                id="slide">
-                <div className="bg-youtubCard w-full p-2 rounded-lg mt-8 h-1/2">
-                  <iframe
-                    height="100%"
-                    width="100%"
-                    src={item.src}
-                    title="A YouTube video"></iframe>
-                </div>
-                <div className="flex items-center space-x-2 mt-2 hover:underline cursor-pointer ">
-                  <div>
-                    <Image
-                      src="/assets/icons/YoutubeIcon.svg"
-                      alt=""
-                      width={38}
-                      height={28}
-                    />
+                    key={index}
+                    id="slide">
+                    <div className="bg-youtubCard w-full p-2 rounded-lg mt-8 h-1/2">
+                      <iframe
+                        height="100%"
+                        width="100%"
+                        src={item.src}
+                        title="A YouTube video"></iframe>
+                    </div>
+                    <div className="flex items-center space-x-2 mt-8 hover:underline cursor-pointer w-fit">
+                      <div>
+                        <Image
+                          src="/assets/icons/YoutubeIcon.svg"
+                          alt=""
+                          width={38}
+                          height={28}
+                        />
+                      </div>
+                      <a
+                        href={`https://youtube.com/watch?v=${watchOnYoutube}`}
+                        target="_blank"
+                        className="font-normal">
+                        Watch on Youtube
+                      </a>
+                    </div>
+                    <h1 className="font-medium text-4xl mt-4 w-2/3">
+                      {item.name}
+                    </h1>
+                    <p className="mt-4 opacity-50">{item.desc}</p>
                   </div>
-                  <p>Watch on Youtube</p>
-                </div>
-                <h1 className="text-3xl mt-4 w-1/2">{item.name}</h1>
-                <p className="mt-4 opacity-50">{item.desc}</p>
-              </div>
-            ))}
+                </>
+              );
+            })}
           </div>
         </div>
       </div>

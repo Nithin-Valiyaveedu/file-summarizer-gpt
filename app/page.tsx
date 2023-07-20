@@ -15,12 +15,18 @@ import { useUserContext } from "../context/UserContex";
 import { successToast } from "@components/toast";
 import Loader from "@components/loader";
 import CustomCarousal from "@components/carousal";
+import { getUserDetails } from "@utils/crypto";
 
 const Login = () => {
   const router = useRouter();
   const [userData, setUserData] = useState<any>("");
   const [loader, setLoader] = useState<boolean>(false);
   const { setUser } = useUserContext();
+
+  useEffect(() => {
+    const { authToken } = getUserDetails();
+    if (authToken) router.push("/dashboard");
+  }, []);
 
   useEffect(() => {
     if (userData) {
@@ -39,7 +45,7 @@ const Login = () => {
           {loader && <Loader />}
           <div className="w-full 850px:w-[80%] p-8">
             <Image
-              className="my-8"
+              className=""
               src="/assets/logos/SiteLogo.svg"
               alt=""
               width={65}

@@ -12,14 +12,19 @@ import UserPrompt from "@components/chatprompt/userPrompt";
 import { useUserContext } from "@context/UserContex";
 import { errorToast, infoToast } from "@components/toast";
 
-const ChatPrompt = ({ projectId }: { projectId: string }) => {
+const ChatPrompt = ({
+  projectId,
+  dashboardLoader,
+}: {
+  projectId: string;
+  dashboardLoader: boolean;
+}) => {
   let limit = 5;
   const { user } = useUserContext();
   const [chatPrompt, setChatPrompt] = useState("");
   const [loader, setLoader] = useState<any>();
-  const [chatLog, setChatLog] = useState<any[]>([]);
+  const [chatLog, setChatLog] = useState<any>("");
   const [offset, setOffset] = useState(0);
-  const [hasMore, setHasMore] = useState(true);
   const messageEl = useRef<any>(null);
 
   const getChatData = async (limit: any, offset: any) => {
@@ -31,10 +36,13 @@ const ChatPrompt = ({ projectId }: { projectId: string }) => {
       );
       const { data } = response.data;
       data.rows.forEach((value: any) => {
-        console.log(value);
         let questionHistory = { chatUser: "me", message: value.question };
         let answerHistory = { chatUser: "gpt", message: value.answer };
-        setChatLog((chatLog) => [...chatLog, questionHistory, answerHistory]);
+        setChatLog((chatLog: any) => [
+          ...chatLog,
+          questionHistory,
+          answerHistory,
+        ]);
       });
     } catch (error) {
       console.log(error);
@@ -60,7 +68,7 @@ const ChatPrompt = ({ projectId }: { projectId: string }) => {
         target.scroll({ top: target.scrollHeight, behavior: "smooth" });
       });
       setChatPrompt("");
-      setChatLog((chatLog) => [
+      setChatLog((chatLog: any) => [
         ...chatLog,
         { chatUser: "me", message: chatPrompt },
       ]);
@@ -75,7 +83,7 @@ const ChatPrompt = ({ projectId }: { projectId: string }) => {
           chatUser: "gpt",
           message: response.data.data.text,
         };
-        setChatLog((chatLog) => [...chatLog, chatResponse]);
+        setChatLog((chatLog: any) => [...chatLog, chatResponse]);
       } catch (error: any) {
         errorToast(error.response.data.error.message);
       } finally {
@@ -85,7 +93,6 @@ const ChatPrompt = ({ projectId }: { projectId: string }) => {
   };
 
   const fetchMoreData = async () => {
-    console.log("hehehehe");
     getChatData(limit, limit + offset);
     setOffset((offset) => offset + limit);
   };
@@ -100,10 +107,10 @@ const ChatPrompt = ({ projectId }: { projectId: string }) => {
           <InfiniteScroll
             dataLength={10}
             next={fetchMoreData}
-            hasMore={hasMore}
+            hasMore={true}
             loader={false}
             scrollableTarget="scrollable">
-            {chatLog.map(({ chatUser, message }, index) => (
+            {chatLog.map(({ chatUser, message }: any, index: number) => (
               <div
                 key={index}
                 className="mt-4 mb-2">
@@ -120,7 +127,8 @@ const ChatPrompt = ({ projectId }: { projectId: string }) => {
             {loader && (
               <SkeletonTheme
                 baseColor="#F5E4DF"
-                highlightColor="#F9F9F9F9">
+                highlightColor="#F9F9F9F9"
+                duration={0.75}>
                 <div className="mt-2 w-[70%] mx-auto">
                   <Skeleton height={100} />
                 </div>
@@ -130,15 +138,35 @@ const ChatPrompt = ({ projectId }: { projectId: string }) => {
         </div>
       ) : (
         <div className="flex-col flex-center min-h-[90vh]">
-          <Image
-            src="/assets/icons/PaperIcon.svg"
-            alt=""
-            width={53}
-            height={53}
-          />
-          <p className="text-sm font-semibold w-1/6 text-center">
-            Your transcripts are ready, start prompting
-          </p>
+          {dashboardLoader ? (
+            <>
+              <Skeleton
+                circle
+                duration={0.75}
+                width={53}
+                height={53}
+              />
+              <p className="px-4 py-2 w-1/4 mx-auto">
+                <Skeleton
+                  duration={0.75}
+                  count={1}
+                  height={20}
+                />
+              </p>
+            </>
+          ) : (
+            <>
+              <Image
+                src="/assets/icons/PaperIcon.svg"
+                alt=""
+                width={53}
+                height={53}
+              />
+              <p className="text-2xl font-semibold w-1/4 text-center">
+                Your transcripts are ready, start prompting
+              </p>
+            </>
+          )}
         </div>
       )}
       <div className="absolute bottom-0 rounded-lg bg-white shadow-inputField w-[75%] left-1/2 transform -translate-x-1/2 -translate-y-1/2">
@@ -146,7 +174,7 @@ const ChatPrompt = ({ projectId }: { projectId: string }) => {
           <div className="flex flex-between relative p-4">
             <input
               disabled={loader}
-              className={`w-full outline-none bg-transparent  ${
+              className={`w-full outline-none bg-transparent text-xs  ${
                 loader && "hover:cursor-not-allowed"
               }`}
               placeholder="Type your message here"

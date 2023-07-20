@@ -70,70 +70,11 @@ const Sidebar = () => {
               getProjectList={getProjectList}
               projectCount={projectCount}
             />
-            <div className="absolute bottom-0 w-full">
-              <Link
-                href="/dashboard/example-prompt"
-                className="px-6 mb-2 hover:underline cursor-pointer hover:text-primaryColor font-medium">
-                <p className="px-6 mb-2 hover:underline cursor-pointer hover:text-primaryColor font-medium">
-                  Example Prompt
-                </p>
-              </Link>
-
-              <div className="flex-between px-6">
-                <div className="flex-center space-x-2 items-center">
-                  <Image
-                    className="mt-1"
-                    src="/assets/icons/TutorialIcon.svg"
-                    alt=""
-                    width={16}
-                    height={15}
-                  />
-                  <p className="font-medium">Tutorials</p>
-                </div>
-                <div
-                  className="cursor-pointer"
-                  onClick={() => {
-                    infoToast("Coming Soon");
-                  }}>
-                  <Image
-                    className=""
-                    src="/assets/icons/RightArrow.svg"
-                    alt=""
-                    width={16.25}
-                    height={15}
-                  />
-                </div>
-              </div>
-
-              <div className="border border-b my-4"></div>
-
-              <div className="flex-between px-6 py-1">
-                <div className="flex-center space-x-2 items-center">
-                  <Image
-                    className="rounded-full"
-                    src={user.picture}
-                    alt="profile-photo"
-                    width={40}
-                    height={40}
-                  />
-                  <p>{user.fullName}</p>
-                </div>
-
-                <div
-                  onClick={handleLogout}
-                  className="cursor-pointer">
-                  <Image
-                    src="/assets/icons/LogoutIcon.svg"
-                    alt="logout-icon"
-                    width={16.25}
-                    height={15}
-                  />
-                </div>
-              </div>
-            </div>
           </>
         ) : (
-          <SkeletonTheme highlightColor="#F9F9F9F9">
+          <SkeletonTheme
+            duration={0.75}
+            highlightColor="#F9F9F9F9">
             <p className="px-4 py-2">
               <Skeleton
                 count={6}
@@ -142,6 +83,67 @@ const Sidebar = () => {
             </p>
           </SkeletonTheme>
         )}
+      </div>
+      <div className="absolute bottom-0 w-full">
+        <Link
+          href="/dashboard/example-prompt"
+          className="px-6 mb-2 hover:underline cursor-pointer hover:text-primaryColor font-medium">
+          <p className="px-6 mb-2 hover:underline cursor-pointer hover:text-primaryColor font-medium">
+            Example Prompt
+          </p>
+        </Link>
+
+        <div className="flex-between px-6">
+          <div className="flex-center space-x-2 items-center">
+            <Image
+              className="mt-1"
+              src="/assets/icons/TutorialIcon.svg"
+              alt=""
+              width={16}
+              height={15}
+            />
+            <p className="font-medium">Tutorials</p>
+          </div>
+          <div
+            className="cursor-pointer"
+            onClick={() => {
+              infoToast("Coming Soon");
+            }}>
+            <Image
+              className=""
+              src="/assets/icons/RightArrow.svg"
+              alt=""
+              width={16.25}
+              height={15}
+            />
+          </div>
+        </div>
+
+        <div className="border border-b my-4 "></div>
+
+        <div className="flex-between px-6 py-2 my-3">
+          <div className="flex-center space-x-2 items-center">
+            <Image
+              className="rounded-full"
+              src={user.picture}
+              alt="profile-photo"
+              width={40}
+              height={40}
+            />
+            <p className="font-medium">{user.fullName}</p>
+          </div>
+
+          <div
+            onClick={handleLogout}
+            className="cursor-pointer">
+            <Image
+              src="/assets/icons/LogoutIcon.svg"
+              alt="logout-icon"
+              width={20}
+              height={16.25}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
