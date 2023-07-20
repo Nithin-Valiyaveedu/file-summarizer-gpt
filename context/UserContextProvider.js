@@ -13,7 +13,6 @@ const UserContextProvider = ({ children }) => {
   const displayLogoutModal = () => setLogoutModal(true);
 
   useEffect(() => {
-    // checks if the user is authenticated
     setUser(getUserDetails())
     const { authToken } = getUserDetails();
     !authToken && router.push("/");

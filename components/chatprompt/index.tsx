@@ -103,7 +103,7 @@ const ChatPrompt = ({
         <div
           id="scrollable"
           ref={messageEl}
-          className="overflow-y-scroll h-[75vh] mt-6">
+          className="overflow-y-scroll h-[70vh] mt-6">
           <InfiniteScroll
             dataLength={10}
             next={fetchMoreData}
@@ -172,9 +172,9 @@ const ChatPrompt = ({
       <div className="absolute bottom-0 rounded-lg bg-white shadow-inputField w-[75%] left-1/2 transform -translate-x-1/2 -translate-y-1/2">
         <form onSubmit={(e) => handleSubmit(e)}>
           <div className="flex flex-between relative p-4">
-            <input
+            <textarea
               disabled={loader}
-              className={`w-full outline-none bg-transparent text-xs  ${
+              className={`w-full outline-none bg-transparent text-xs max-h-[200px] overflow-y resize-none ${
                 loader && "hover:cursor-not-allowed"
               }`}
               placeholder="Type your message here"
