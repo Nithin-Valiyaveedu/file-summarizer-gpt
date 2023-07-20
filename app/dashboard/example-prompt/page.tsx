@@ -1,6 +1,6 @@
 const ExamplePrompt = () => {
   return (
-    <div className="w-full p-8 text-justify">
+    <div className="w-full p-8 text-justify max-h-[90vh] overflow-y-auto">
       <h1 className="text-xl text-center font-bold my-4">Example Prompts</h1>
       <ul className="font-semibold my-2">
         Prompt that includes the coach&apos;s writing style:
