@@ -25,14 +25,14 @@ const Login = () => {
 
   useEffect(() => {
     const { authToken } = getUserDetails();
-    if (authToken) router.push("/dashboard");
+    if (authToken) router.push("/dashboard", { shallow: true });
   }, []);
 
   useEffect(() => {
     if (userData) {
       storeUserDetails(userData.data);
       setUser(userData.data);
-      router.push("/dashboard");
+      router.push("/dashboard", { shallow: true });
       successToast(userData.message);
     }
   }, [userData]);
