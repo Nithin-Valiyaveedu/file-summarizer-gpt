@@ -19,9 +19,6 @@ const DocumentUpload = ({
   setState: Dispatch<SetStateAction<Boolean>>;
 }) => {
   const router = useRouter();
-  const [thumbnailUploadedName, setThumbnailUploadedName] = useState<string[]>(
-    []
-  );
 
   const { setSelectedProject, setCommonLoader } = useProjectContext();
   const handleUploadImage = async (e: any) => {
@@ -52,6 +49,7 @@ const DocumentUpload = ({
         errorToast(error.response.data.error.message);
       } finally {
         setCommonLoader(false);
+        successToast("Document added successfully");
       }
     });
   };

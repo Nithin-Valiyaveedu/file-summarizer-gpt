@@ -123,13 +123,16 @@ const Sidebar = () => {
 
         <div className="flex-between px-6 py-2 my-3">
           <div className="flex-center space-x-2 items-center">
-            <Image
-              className="rounded-full"
-              src={user.picture}
-              alt="profile-photo"
-              width={40}
-              height={40}
-            />
+            {user && (
+              <img
+                className="rounded-full"
+                src={user.picture}
+                alt="profile-photo"
+                width={40}
+                height={40}
+              />
+            )}
+
             <p className="font-medium">{user.fullName}</p>
           </div>
 

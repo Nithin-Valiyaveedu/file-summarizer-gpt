@@ -28,6 +28,19 @@ const ChatPrompt = ({
   const [offset, setOffset] = useState(0);
   const messageEl = useRef<any>(null);
 
+  const scrollToBottom = () => {
+    // console.log(messageEl.current);
+    // // const element: any = document.getElementById("scrollable");
+    // // element.scroll({ top: element.scrollHeight, behavior: "smooth" });
+
+    if (messageEl) {
+      messageEl.current?.addEventListener("DOMNodeInserted", (event: any) => {
+        const { currentTarget: target } = event;
+        target.scroll({ top: target.scrollHeight, behavior: "smooth" });
+      });
+    }
+  };
+
   const getChatData = async (limit: any, offset: any) => {
     try {
       const response = await chatPromptApis.getChatHistory(
@@ -40,9 +53,9 @@ const ChatPrompt = ({
         let questionHistory = { chatUser: "me", message: value.question };
         let answerHistory = { chatUser: "gpt", message: value.answer };
         setChatLog((chatLog: any) => [
-          ...chatLog,
           questionHistory,
           answerHistory,
+          ...chatLog,
         ]);
       });
     } catch (error) {
@@ -51,6 +64,7 @@ const ChatPrompt = ({
   };
 
   useEffect(() => {
+    // scrollToBottom();
     getChatData(limit, offset);
   }, []);
 
@@ -60,16 +74,10 @@ const ChatPrompt = ({
   };
 
   const handleSubmit = async (e: any) => {
-    console.log(e);
-
     e.preventDefault();
     if (chatPrompt.trim() === "") {
       infoToast("Please enter a prompt");
     } else {
-      messageEl.current?.addEventListener("DOMNodeInserted", (event: any) => {
-        const { currentTarget: target } = event;
-        target.scroll({ top: target.scrollHeight, behavior: "smooth" });
-      });
       setChatPrompt("");
       setChatLog((chatLog: any) => [
         ...chatLog,
@@ -77,6 +85,7 @@ const ChatPrompt = ({
       ]);
       let payload = { promt: chatPrompt, history: [] };
       try {
+        scrollToBottom();
         setLoader(true);
         const response = await chatPromptApis.getChatResponse(
           payload,
@@ -100,18 +109,22 @@ const ChatPrompt = ({
     setOffset((offset) => offset + limit);
   };
 
+
   return (
     <div className="">
-      {chatLog.length !== 0 ? (
-        <div
-          id="scrollable"
-          ref={messageEl}
-          className="overflow-y-scroll h-[70vh] mt-6">
+      <div
+        id="scrollable"
+        ref={messageEl}
+        className={`flex ${
+          chatLog.length !== 0 && "overflow-y-auto h-[70vh] mt-6"
+        } ${chatLog.length < 5 ? "flex-col" : "flex-col-reverse"}`}>
+        {chatLog.length !== 0 ? (
           <InfiniteScroll
-            dataLength={10}
+            inverse={true}
+            dataLength={chatLog.length}
             next={fetchMoreData}
             hasMore={true}
-            loader={false}
+            loader={<></>}
             scrollableTarget="scrollable">
             {chatLog.map(({ chatUser, message }: any, index: number) => (
               <div
@@ -138,40 +151,40 @@ const ChatPrompt = ({
               </SkeletonTheme>
             )}
           </InfiniteScroll>
-        </div>
-      ) : (
-        <div className="flex-col flex-center min-h-[90vh]">
-          {dashboardLoader ? (
-            <>
-              <Skeleton
-                circle
-                duration={0.75}
-                width={53}
-                height={53}
-              />
-              <p className="px-4 py-2 w-1/4 mx-auto">
+        ) : (
+          <div className="flex-col flex-center min-h-[90vh]">
+            {dashboardLoader ? (
+              <>
                 <Skeleton
+                  circle
                   duration={0.75}
-                  count={1}
-                  height={20}
+                  width={53}
+                  height={53}
                 />
-              </p>
-            </>
-          ) : (
-            <>
-              <Image
-                src="/assets/icons/PaperIcon.svg"
-                alt=""
-                width={53}
-                height={53}
-              />
-              <p className="text-2xl font-semibold w-1/4 text-center">
-                Your transcripts are ready, start prompting
-              </p>
-            </>
-          )}
-        </div>
-      )}
+                <p className="px-4 py-2 w-1/4 mx-auto">
+                  <Skeleton
+                    duration={0.75}
+                    count={1}
+                    height={20}
+                  />
+                </p>
+              </>
+            ) : (
+              <>
+                <Image
+                  src="/assets/icons/PaperIcon.svg"
+                  alt=""
+                  width={53}
+                  height={53}
+                />
+                <p className="text-2xl font-semibold w-1/4 text-center">
+                  Your transcripts are ready, start prompting
+                </p>
+              </>
+            )}
+          </div>
+        )}
+      </div>
       <div className="absolute bottom-0 rounded-lg bg-white shadow-inputField w-[75%] left-1/2 transform -translate-x-1/2 -translate-y-1/2">
         <div className="flex flex-between relative p-4">
           <TextareaAutosize
