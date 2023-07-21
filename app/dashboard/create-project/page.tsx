@@ -62,6 +62,7 @@ const CreateProject = () => {
         </p>
         <p className="text-sm opacity-[50%]">Start by uploading project file</p>
         <Input
+          limit={50}
           classNames={`mt-4`}
           name="projectName"
           placeholder="Project Name"

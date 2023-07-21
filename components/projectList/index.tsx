@@ -66,7 +66,7 @@ const ProjectList = ({
                 <div
                   className="flex-between w-full cursor-pointer"
                   onClick={() => router.push(`/dashboard/chat-prompt/${id}`)}>
-                  <p className="text-sm font-medium oneLineContent">{projectName}</p>
+                  <p className="text-sm font-medium oneLineContent w-[90%]">{projectName}</p>
                   <div
                     className="cursor-pointer"
                     onClick={() => {

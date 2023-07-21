@@ -22,7 +22,7 @@ const Navbar = () => {
                 width={13}
                 height={11}
               />
-              <p className="text-sm font-medium">
+              <p className="text-sm font-medium w-full break-all">
                 {selectedProject.projectName}
               </p>
             </>

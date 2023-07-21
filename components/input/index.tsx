@@ -3,14 +3,17 @@ const Input = ({
   name,
   placeholder,
   onChange,
+  limit,
 }: {
   classNames: string;
   name: string;
   placeholder: string;
   onChange: Function;
+  limit?: number;
 }) => {
   return (
     <input
+      maxLength={limit}
       name={name}
       placeholder={placeholder}
       onChange={(e) => onChange(e)}

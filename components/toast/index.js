@@ -21,7 +21,7 @@ export const Toast = () => (
 );
 
 export const errorToast = (
-  message = "Something went wrong, Try again later!"
+  message = "Something went wrong. Try again later!"
 ) => {
   toast.error(message);
   toast.clearWaitingQueue()

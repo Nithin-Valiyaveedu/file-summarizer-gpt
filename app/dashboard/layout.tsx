@@ -64,7 +64,7 @@ export default function DashBoardLayout({
           <ConfirmModal
             content={{
               title: "Are you sure you want to logout?",
-              description: "Logout of cornerstone",
+              description: "Logout of Cornerstone",
             }}
             setState={setLogoutModal}
             yesClick={handleLogout}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
+import TextareaAutosize from "react-textarea-autosize";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 import Image from "next/image";
@@ -59,6 +60,8 @@ const ChatPrompt = ({
   };
 
   const handleSubmit = async (e: any) => {
+    console.log(e);
+
     e.preventDefault();
     if (chatPrompt.trim() === "") {
       infoToast("Please enter a prompt");
@@ -170,30 +173,37 @@ const ChatPrompt = ({
         </div>
       )}
       <div className="absolute bottom-0 rounded-lg bg-white shadow-inputField w-[75%] left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-        <form onSubmit={(e) => handleSubmit(e)}>
-          <div className="flex flex-between relative p-4">
-            <textarea
-              disabled={loader}
-              className={`w-full outline-none bg-transparent text-xs max-h-[200px] overflow-y resize-none ${
+        <div className="flex flex-between relative p-4">
+          <TextareaAutosize
+            onKeyDown={(e) => {
+              if (e.keyCode == 13 && e.shiftKey == false) {
+                handleSubmit(e);
+              }
+            }}
+            className={`w-full outline-none bg-transparent text-xs overflow-hidden resize-none ${
+              loader && "hover:cursor-not-allowed"
+            }`}
+            placeholder="Type your message here"
+            minRows={1}
+            value={chatPrompt}
+            maxRows={10}
+            disabled={loader}
+            onChange={(e) => {
+              handleChange(e);
+            }}
+          />
+          <div onClick={handleSubmit}>
+            <Image
+              className={`cursor-pointer ${
                 loader && "hover:cursor-not-allowed"
               }`}
-              placeholder="Type your message here"
-              value={chatPrompt}
-              onChange={(e) => handleChange(e)}
+              src="/assets/icons/MessageIcon.svg"
+              alt=""
+              width={21}
+              height={21}
             />
-            <div onClick={handleSubmit}>
-              <Image
-                className={`cursor-pointer ${
-                  loader && "hover:cursor-not-allowed"
-                }`}
-                src="/assets/icons/MessageIcon.svg"
-                alt=""
-                width={21}
-                height={21}
-              />
-            </div>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );
