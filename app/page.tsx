@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+// import { useRouter } from "next/navigation";
 import { useRouter } from "next/navigation";
 
 import { GoogleOAuthProvider } from "@react-oauth/google";
@@ -25,14 +26,14 @@ const Login = () => {
 
   useEffect(() => {
     const { authToken } = getUserDetails();
-    if (authToken) router.push("/dashboard", { shallow: true });
+    if (authToken) router.replace("/dashboard");
   }, []);
 
   useEffect(() => {
     if (userData) {
       storeUserDetails(userData.data);
       setUser(userData.data);
-      router.push("/dashboard", { shallow: true });
+      router.replace("/dashboard");
       successToast(userData.message);
     }
   }, [userData]);
