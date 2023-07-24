@@ -27,6 +27,8 @@ const PromptPage = () => {
         const { data } = result.data;
         if (data.ProjectFiles.length === 0) {
           setFilesNotPresent(true);
+        } else {
+          setFilesNotPresent(false);
         }
         setSelectedProject(data);
       } catch (error) {
