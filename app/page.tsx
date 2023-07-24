@@ -33,7 +33,6 @@ const Login = () => {
     if (userData) {
       storeUserDetails(userData.data);
       setUser(userData.data);
-      router.replace("/dashboard");
       successToast(userData.message);
     }
   }, [userData]);

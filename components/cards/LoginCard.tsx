@@ -27,6 +27,7 @@ const LoginCard = ({
       try {
         setLoader(true);
         const result: any = await authenticationApi.googleAuth(payload);
+        router.replace("/dashboard");
         setUserData(result.data);
       } catch (error: any) {
         errorToast(error.response.data.error.message);
