@@ -16,9 +16,11 @@ import { errorToast, infoToast } from "@components/toast";
 const ChatPrompt = ({
   projectId,
   dashboardLoader,
+  projectFiles,
 }: {
   projectId: string;
   dashboardLoader: boolean;
+  projectFiles: boolean;
 }) => {
   let limit = 5;
   const { user } = useUserContext();
@@ -29,10 +31,6 @@ const ChatPrompt = ({
   const messageEl = useRef<any>(null);
 
   const scrollToBottom = () => {
-    // console.log(messageEl.current);
-    // // const element: any = document.getElementById("scrollable");
-    // // element.scroll({ top: element.scrollHeight, behavior: "smooth" });
-
     if (messageEl) {
       messageEl.current?.addEventListener("DOMNodeInserted", (event: any) => {
         const { currentTarget: target } = event;
@@ -64,7 +62,6 @@ const ChatPrompt = ({
   };
 
   useEffect(() => {
-    // scrollToBottom();
     getChatData(limit, offset);
   }, []);
 
@@ -109,115 +106,134 @@ const ChatPrompt = ({
     setOffset((offset) => offset + limit);
   };
 
-
   return (
-    <div className="">
-      <div
-        id="scrollable"
-        ref={messageEl}
-        className={`flex ${
-          chatLog.length !== 0 && "overflow-y-auto h-[70vh] mt-6"
-        } ${chatLog.length < 5 ? "flex-col" : "flex-col-reverse"}`}>
-        {chatLog.length !== 0 ? (
-          <InfiniteScroll
-            inverse={true}
-            dataLength={chatLog.length}
-            next={fetchMoreData}
-            hasMore={true}
-            loader={<></>}
-            scrollableTarget="scrollable">
-            {chatLog.map(({ chatUser, message }: any, index: number) => (
+    <div>
+      {dashboardLoader ? (
+        <div className="flex-col flex-center min-h-[90vh]">
+          <Skeleton
+            circle
+            duration={0.75}
+            width={53}
+            height={53}
+          />
+          <p className="px-4 py-2 w-1/4 mx-auto">
+            <Skeleton
+              duration={0.75}
+              count={1}
+              height={20}
+            />
+          </p>
+        </div>
+      ) : (
+        <>
+          {!projectFiles ? (
+            <>
               <div
-                key={index}
-                className="mt-4 mb-2">
-                {chatUser === "me" ? (
-                  <UserPrompt
-                    picture={user.picture}
-                    content={message}
-                  />
+                id="scrollable"
+                ref={messageEl}
+                className={`flex ${
+                  chatLog.length !== 0 && "overflow-y-auto h-[70vh] mt-6"
+                } ${chatLog.length < 5 ? "flex-col" : "flex-col-reverse"}`}>
+                {chatLog.length !== 0 ? (
+                  <InfiniteScroll
+                    inverse={true}
+                    dataLength={chatLog.length}
+                    next={fetchMoreData}
+                    hasMore={true}
+                    loader={<></>}
+                    scrollableTarget="scrollable">
+                    {chatLog.map(
+                      ({ chatUser, message }: any, index: number) => (
+                        <div
+                          key={index}
+                          className="mt-4 mb-2">
+                          {chatUser === "me" ? (
+                            <UserPrompt
+                              picture={user.picture}
+                              content={message}
+                            />
+                          ) : (
+                            <AiPrompt content={message} />
+                          )}
+                        </div>
+                      )
+                    )}
+                    {loader && (
+                      <SkeletonTheme
+                        baseColor="#F5E4DF"
+                        highlightColor="#F9F9F9F9"
+                        duration={0.75}>
+                        <div className="mt-2 w-[70%] mx-auto">
+                          <Skeleton height={100} />
+                        </div>
+                      </SkeletonTheme>
+                    )}
+                  </InfiniteScroll>
                 ) : (
-                  <AiPrompt content={message} />
+                  <div className="flex-col flex-center min-h-[90vh]">
+                    <>
+                      <Image
+                        src="/assets/icons/PaperIcon.svg"
+                        alt=""
+                        width={53}
+                        height={53}
+                      />
+                      <p className="text-2xl font-semibold w-1/4 text-center">
+                        Your transcripts are ready, start prompting
+                      </p>
+                    </>
+                  </div>
                 )}
               </div>
-            ))}
-            {loader && (
-              <SkeletonTheme
-                baseColor="#F5E4DF"
-                highlightColor="#F9F9F9F9"
-                duration={0.75}>
-                <div className="mt-2 w-[70%] mx-auto">
-                  <Skeleton height={100} />
-                </div>
-              </SkeletonTheme>
-            )}
-          </InfiniteScroll>
-        ) : (
-          <div className="flex-col flex-center min-h-[90vh]">
-            {dashboardLoader ? (
-              <>
-                <Skeleton
-                  circle
-                  duration={0.75}
-                  width={53}
-                  height={53}
-                />
-                <p className="px-4 py-2 w-1/4 mx-auto">
-                  <Skeleton
-                    duration={0.75}
-                    count={1}
-                    height={20}
+              <div className="absolute bottom-0 rounded-lg bg-white shadow-inputField w-[75%] left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <div className="flex flex-between relative p-4">
+                  <TextareaAutosize
+                    onKeyDown={(e) => {
+                      if (e.keyCode == 13 && e.shiftKey == false) {
+                        handleSubmit(e);
+                      }
+                    }}
+                    className={`w-full outline-none bg-transparent text-xs overflow-hidden resize-none ${
+                      loader && "hover:cursor-not-allowed"
+                    }`}
+                    placeholder="Type your message here"
+                    minRows={1}
+                    value={chatPrompt}
+                    maxRows={10}
+                    disabled={loader}
+                    onChange={(e) => {
+                      handleChange(e);
+                    }}
                   />
-                </p>
-              </>
-            ) : (
-              <>
-                <Image
-                  src="/assets/icons/PaperIcon.svg"
-                  alt=""
-                  width={53}
-                  height={53}
-                />
-                <p className="text-2xl font-semibold w-1/4 text-center">
-                  Your transcripts are ready, start prompting
-                </p>
-              </>
-            )}
-          </div>
-        )}
-      </div>
-      <div className="absolute bottom-0 rounded-lg bg-white shadow-inputField w-[75%] left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-        <div className="flex flex-between relative p-4">
-          <TextareaAutosize
-            onKeyDown={(e) => {
-              if (e.keyCode == 13 && e.shiftKey == false) {
-                handleSubmit(e);
-              }
-            }}
-            className={`w-full outline-none bg-transparent text-xs overflow-hidden resize-none ${
-              loader && "hover:cursor-not-allowed"
-            }`}
-            placeholder="Type your message here"
-            minRows={1}
-            value={chatPrompt}
-            maxRows={10}
-            disabled={loader}
-            onChange={(e) => {
-              handleChange(e);
-            }}
-          />
-          <div onClick={handleSubmit}>
-            <Image
-              className={`cursor-pointer ${
-                loader && "hover:cursor-not-allowed"
-              }`}
-              src="/assets/icons/MessageIcon.svg"
-              alt=""
-              width={21}
-              height={21}
-            />
-          </div>
-        </div>
-      </div>
+                  <div onClick={handleSubmit}>
+                    <Image
+                      className={`cursor-pointer ${
+                        loader && "hover:cursor-not-allowed"
+                      }`}
+                      src="/assets/icons/MessageIcon.svg"
+                      alt=""
+                      width={21}
+                      height={21}
+                    />
+                  </div>
+                </div>
+              </div>
+            </>
+          ) : (
+            <div className="flex-col flex-center min-h-[90vh]">
+              <Image
+                src="/assets/icons/PaperIcon.svg"
+                alt=""
+                width={53}
+                height={53}
+              />
+              <p className="text-2xl font-semibold w-1/4 text-center">
+                Please upload a document to start prompting
+              </p>
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 };

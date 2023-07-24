@@ -20,7 +20,8 @@ const DocumentUpload = ({
 }) => {
   const router = useRouter();
 
-  const { setSelectedProject, setCommonLoader } = useProjectContext();
+  const { setSelectedProject, setCommonLoader, setFilesNotPresent } =
+    useProjectContext();
   const handleUploadImage = async (e: any) => {
     const files = e.target.files;
     Array.from(files).map(async (value: any) => {
@@ -50,6 +51,7 @@ const DocumentUpload = ({
       } finally {
         setCommonLoader(false);
         successToast("Document added successfully");
+        setFilesNotPresent(false);
       }
     });
   };

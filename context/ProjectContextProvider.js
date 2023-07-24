@@ -1,14 +1,13 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { usePathname, useRouter } from 'next/navigation'
+import { useState } from "react"
+import { useRouter } from 'next/navigation'
 import { ProjectContext } from "./ProjectContext"
 
 import { projectApis } from "../apis/project/projectApis"
-import { errorToast, successToast } from "@components/toast"
+import { errorToast, infoToast, successToast } from "@components/toast"
 
 const ProjectContextProvider = ({ children }) => {
-  const pathname = usePathname()
   const router = useRouter()
   const [projectList, setProjectList] = useState("")
   const [projectCount, setTotalProjectCount] = useState()
@@ -19,6 +18,7 @@ const ProjectContextProvider = ({ children }) => {
   const [fileId, setFileId] = useState("")
   const [projectFilesModal, setProjectFilesModal] = useState(false)
   const [commonLoader, setCommonLoader] = useState(false)
+  const [filesNotPresent, setFilesNotPresent] = useState(false)
 
   const displayDeleteModal = (id, projectName) => {
     setProjectId(id)
@@ -67,11 +67,18 @@ const ProjectContextProvider = ({ children }) => {
         ...selectedProject,
         ProjectFiles: filteredData
       })
+
+      console.log(filteredData);
+      setFileDeleteModal(false);
+      if (filteredData.length === 0) {
+        setFilesNotPresent(true)
+        setProjectFilesModal(false)
+      }
+      else {
+        setProjectFilesModal(true)
+      }
     } catch (error) {
       errorToast(error.response.data.error.message)
-    } finally {
-      setFileDeleteModal(false);
-      setProjectFilesModal(true)
     }
   }
 
@@ -86,6 +93,8 @@ const ProjectContextProvider = ({ children }) => {
       setProjectList(data.rows);
     }
   };
+
+
 
   return (<ProjectContext.Provider
     value={{
@@ -108,7 +117,9 @@ const ProjectContextProvider = ({ children }) => {
       getProjectList,
       projectCount,
       commonLoader,
-      setCommonLoader
+      setCommonLoader,
+      filesNotPresent,
+      setFilesNotPresent,
     }}>
     {children}
   </ProjectContext.Provider>)
