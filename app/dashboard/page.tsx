@@ -1,5 +1,7 @@
+"use client";
+
 const DashBoard = () => {
-  return <>{/* <Loader classNames="min-h-[90vh]" /> */}</>;
+  return <></>;
 };
 
 export default DashBoard;

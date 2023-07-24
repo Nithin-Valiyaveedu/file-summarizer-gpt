@@ -33,7 +33,7 @@ const Login = () => {
     if (userData) {
       storeUserDetails(userData.data);
       setUser(userData.data);
-      // successToast(userData.message);
+      successToast(userData.message);
     }
   }, [userData]);
 

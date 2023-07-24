@@ -8,13 +8,12 @@ import { authenticationApi } from "@apis/auth/googleAuth";
 
 import { removeUserDataFromLS } from "@utils/crypto";
 
-import { successToast, errorToast } from "@components/toast";
 import Navbar from "@components/navbar";
 import Sidebar from "@components/sidebar";
 import ConfirmModal from "@components/modal/ConfirmModal.jsx";
 import ViewDocumentModal from "@components/modal/ViewDocument.jsx";
 import ModalOuter from "@components/modal/ModalOuter";
-import Loader from "@components/loader";
+import { successToast, errorToast } from "@components/toast";
 
 export default function DashBoardLayout({
   children,
@@ -124,8 +123,8 @@ export default function DashBoardLayout({
         <Sidebar />
         <div className="flex flex-col w-full min-h-screen bg-dashboard relative">
           <Navbar />
-          <div className="">
-            <div className="">{children}</div>
+          <div>
+            <div>{children}</div>
           </div>
         </div>
       </div>
