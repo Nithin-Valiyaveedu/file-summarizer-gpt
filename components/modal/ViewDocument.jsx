@@ -45,7 +45,7 @@ const ViewDocumentModal = ({ selectedProject, setState }) => {
                     width={64}
                     height={64}
                   />
-                  <p>{fileName}</p>
+                  <p className="oneLineContent w-2/3">{fileName}</p>
                 </div>
                 <div
                   className="cursor-pointer bg-default rounded-xl z-50 absolute top-6 right-0 p-0.5 border border-b"
