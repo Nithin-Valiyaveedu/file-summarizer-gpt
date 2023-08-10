@@ -210,3 +210,7 @@ iframe {
   overflow: hidden;
   text-overflow: hidden;
 }
+
+.react-markdown {
+  white-space: 'pre-wrap';
+}
