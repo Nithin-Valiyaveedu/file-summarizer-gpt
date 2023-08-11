@@ -19,7 +19,7 @@ const ProjectList = ({
   let limit = 13;
   const router = useRouter();
   const pathname = usePathname();
-  const projectId = pathname.split("/")[3] || "";
+  const projectId = pathname?.split("/")[3] ?? null;
   const [offset, setOffset] = useState(0);
   const [hasMore, setHasMore] = useState(true);
 
@@ -66,7 +66,9 @@ const ProjectList = ({
                 <div
                   className="flex-between w-full cursor-pointer"
                   onClick={() => router.push(`/dashboard/chat-prompt/${id}`)}>
-                  <p className="text-sm font-medium oneLineContent w-[90%]">{projectName}</p>
+                  <p className="text-sm font-medium oneLineContent w-[90%]">
+                    {projectName}
+                  </p>
                   <div
                     className="cursor-pointer"
                     onClick={() => {

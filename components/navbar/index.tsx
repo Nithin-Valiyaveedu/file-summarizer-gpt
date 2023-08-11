@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 const Navbar = () => {
   const pathname = usePathname();
   const { selectedProject, setProjectFilesModal } = useProjectContext();
-  let pathLength = pathname.split("/");
+  let pathLength = pathname?.split("/") ?? null;
 
   return (
     <>
@@ -14,7 +14,7 @@ const Navbar = () => {
         className="bg-white relative w-full h-[70px] flex items-center justify-between"
         style={{ border: "1px solid #E6E6E6" }}>
         <div className="flex ml-8 space-x-2">
-          {pathLength.length > 3 && (
+          {pathLength && pathLength.length > 3 && (
             <>
               <Image
                 src="/assets/icons/YellowFileIcon.svg"
@@ -30,7 +30,7 @@ const Navbar = () => {
         </div>
 
         <div className="flex items-center space-x-4 justify-end mr-4">
-          {pathLength.length > 3 && (
+          {pathLength && pathLength.length > 3 && (
             <button
               onClick={() => setProjectFilesModal(true)}
               className="rounded-xl bg-default">

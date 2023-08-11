@@ -18,7 +18,7 @@ const ChatPrompt = ({
   dashboardLoader,
   projectFiles,
 }: {
-  projectId: string;
+  projectId: any;
   dashboardLoader: boolean;
   projectFiles: boolean;
 }) => {

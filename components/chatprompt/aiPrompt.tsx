@@ -10,9 +10,9 @@ const AiPrompt = ({ content }: { content: any }) => {
       <div className="relative flex w-[70%] mx-auto mt-4">
         <ReactMarkdown
           className="bg-shadow p-2 bg-answerPrompt rounded-lg words w-full "
-          remarkPlugins={[remarkBreaks]}
-          children={source}
-        />
+          remarkPlugins={[remarkBreaks]}>
+          {source}
+        </ReactMarkdown>
         <div className="absolute -right-12 flex-center p-2 w-10 h-10 bg-white rounded-full">
           <Image
             src="/assets/logos/SiteLogo.svg"

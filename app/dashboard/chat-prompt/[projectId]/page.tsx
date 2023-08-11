@@ -7,7 +7,7 @@ import ChatPrompt from "@components/chatprompt";
 import { useProjectContext } from "@context/ProjectContext";
 import { projectApis } from "@apis/project/projectApis";
 import Loader from "@components/loader";
-import { errorToast, infoToast } from "@components/toast";
+import { errorToast } from "@components/toast";
 
 const PromptPage = () => {
   const {
@@ -17,7 +17,7 @@ const PromptPage = () => {
     filesNotPresent,
   } = useProjectContext();
   const pathName = usePathname();
-  const projectId = pathName.split("/")[3];
+  const projectId = pathName?.split("/")[3] ?? null;
   const [loader, setLoader] = useState(true);
 
   useEffect(() => {
