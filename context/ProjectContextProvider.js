@@ -46,7 +46,7 @@ const ProjectContextProvider = ({ children }) => {
       errorToast(error.response.data.error.message)
     } finally {
       setDeleteModal(false);
-      router.push("/dashboard")
+      router?.push("/dashboard")
     }
   }
 

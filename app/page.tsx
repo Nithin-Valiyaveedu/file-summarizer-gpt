@@ -25,7 +25,7 @@ const Login = () => {
 
   useEffect(() => {
     const { authToken } = getUserDetails();
-    if (authToken) router.replace("/dashboard");
+    if (authToken) router?.push("/dashboard");
   }, []);
 
   useEffect(() => {

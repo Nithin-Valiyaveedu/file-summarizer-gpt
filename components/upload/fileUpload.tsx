@@ -45,7 +45,7 @@ const DocumentUpload = ({
         const dataResponse = await projectApis.getProjectDetails(projectId);
         let projectData = dataResponse.data;
         setSelectedProject(projectData.data);
-        router.push(`/dashboard/chat-prompt/${projectId}`);
+        router?.push(`/dashboard/chat-prompt/${projectId}`);
       } catch (error: any) {
         errorToast(error.response.data.error.message);
       } finally {

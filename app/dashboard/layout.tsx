@@ -42,7 +42,7 @@ export default function DashBoardLayout({
       console.log(response);
       successToast(response.data.message);
       setLogoutModal(false);
-      router.push("/");
+      router?.push("/");
       removeUserDataFromLS();
     } catch (error: any) {
       errorToast(error.response.data.error.message);

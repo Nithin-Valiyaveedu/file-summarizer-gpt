@@ -39,7 +39,7 @@ const CreateProject = () => {
         const result: any = await projectApis.addProject(payload);
         const { data, message } = result.data;
         successToast(message);
-        router.push(`/dashboard/chat-prompt/${data.id}`);
+        router?.push(`/dashboard/chat-prompt/${data.id}`);
         addProject(data);
       } catch (error: any) {
         errorToast(error.response.data.message);

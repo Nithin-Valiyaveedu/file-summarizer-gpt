@@ -25,7 +25,7 @@ const Sidebar = () => {
   }, []);
 
   const handleClick = () => {
-    router.push("/dashboard/create-project");
+    router?.push("/dashboard/create-project");
   };
   const handleLogout = () => {
     displayLogoutModal();

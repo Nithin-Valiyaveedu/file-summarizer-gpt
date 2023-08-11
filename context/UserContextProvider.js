@@ -15,7 +15,7 @@ const UserContextProvider = ({ children }) => {
   useEffect(() => {
     setUser(getUserDetails())
     const { authToken } = getUserDetails();
-    !authToken && router.push("/");
+    !authToken && router?.push("/");
   }, []);
 
 
