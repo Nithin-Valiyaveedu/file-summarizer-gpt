@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 
 const CustomCarousal = () => {
@@ -51,7 +51,7 @@ const CustomCarousal = () => {
             {sliderValues.map((item: any, index) => {
               let watchOnYoutube = item.src.split("/")[4].split("?")[0];
               return (
-                <>
+                <React.Fragment key={index}>
                   <div
                     className={`slide ${
                       activeIndex !== index ? "md:opacity-50 md:ml-10" : ""
@@ -87,7 +87,7 @@ const CustomCarousal = () => {
                     </h1>
                     <p className="mt-4 opacity-50">{item.desc}</p>
                   </div>
-                </>
+                </React.Fragment>
               );
             })}
           </div>
