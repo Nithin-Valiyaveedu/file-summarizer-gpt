@@ -68,7 +68,6 @@ const ProjectContextProvider = ({ children }) => {
         ProjectFiles: filteredData
       })
 
-      console.log(filteredData);
       setFileDeleteModal(false);
       if (filteredData.length === 0) {
         setFilesNotPresent(true)
